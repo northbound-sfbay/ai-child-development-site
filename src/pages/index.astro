@@ -1,0 +1,536 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FramingNote from "../content/framing.mdx";
+import { sources } from "../data/sources";
+import siteData from "../../ai_child_development_site_data.json";
+
+const navItems = [
+  ["hero", "Hero"],
+  ["why", "Why this matters"],
+  ["field-map", "Field Map"],
+  ["layered-matrix", "Layered Matrix"],
+  ["research-density", "Research Density"],
+  ["overlay-framework", "AI Overlay"],
+  ["where-first", "Where First"],
+  ["landscape", "Landscape"],
+  ["open-questions", "Open Questions"],
+  ["sources", "Sources"]
+];
+
+const fieldAxes = [
+  {
+    title: "Developmental period",
+    body: "Anchor every question in the age window where exposure occurs and where effects may later emerge.",
+    items: siteData.periods
+  },
+  {
+    title: "Developmental domain",
+    body: "Separate physical, cognitive, language, social, emotional, identity, and learning outcomes.",
+    items: siteData.domains
+  },
+  {
+    title: "Level of analysis",
+    body: "Link product exposure to behavior, relationships, institutions, neural systems, and culture.",
+    items: ["Child", "Dyad", "Family", "Classroom", "Platform", "Policy"]
+  },
+  {
+    title: "Context",
+    body: "Distinguish home, school, peer, clinical, community, and platform-mediated use.",
+    items: ["Home", "School", "Peers", "Clinical", "Community", "Platform"]
+  },
+  {
+    title: "Research method",
+    body: "Match the question to observational, experimental, audit, longitudinal, and participatory methods.",
+    items: ["Longitudinal", "RCT", "Diary", "Audit", "Interview", "Product telemetry"]
+  }
+];
+
+const layeredAnnotations = [
+  {
+    title: "Focus",
+    body: "The focal behavior or developmental claim inside a period by domain cell."
+  },
+  {
+    title: "Context",
+    body: "Where the exposure happens: family, school, peer life, clinical care, or platform environment."
+  },
+  {
+    title: "Methods",
+    body: "How the question can be studied with enough rigor for the decision at hand."
+  },
+  {
+    title: "Mechanisms",
+    body: "The pathway from AI exposure to developmental outcome: scaffolding, substitution, modeling, offloading, or reinforcement."
+  },
+  {
+    title: "Outcomes",
+    body: "The observable child, family, classroom, or policy outcome that should move if the mechanism is real."
+  }
+];
+
+const visualAssets = [
+  {
+    file: "child_development_research_overview_matrix.png",
+    alt: "Overview matrix for child development research periods and domains.",
+    caption: "Research overview matrix"
+  },
+  {
+    file: "child_development_research_field_map.png",
+    alt: "Field map of child development research dimensions.",
+    caption: "Field map reference visual"
+  },
+  {
+    file: "child_development_research_density_overview.png",
+    alt: "Overview of research density across child development domains.",
+    caption: "Research-density overview"
+  },
+  {
+    file: "child_development_research_density_heat_map.png",
+    alt: "Research density heat map across developmental periods and developmental domains.",
+    caption: "Density heat map reference visual"
+  },
+  {
+    file: "ai_s_impact_on_child_development_overview.png",
+    alt: "Overview diagram for AI impact on child development.",
+    caption: "AI impact framework reference visual"
+  },
+  {
+    file: "visualizing_ai_s_impact_on_child_development.png",
+    alt: "Visual framework for studying AI's impact on child development.",
+    caption: "Visual research framework"
+  }
+];
+
+const openQuestions = [
+  "Longitudinal effects from repeated AI exposure across childhood and adolescence.",
+  "Causal studies outside education, especially companionship, identity, sleep, and help-seeking.",
+  "Younger-child exposure to voice assistants, AI toys, and passive algorithmic environments.",
+  "Neurodivergent and vulnerable youth, including groups with different support needs and risk profiles.",
+  "Human-displacement measurement: what AI replaces, complements, or changes in caregiver, teacher, and peer interaction.",
+  "Product-level audits for child-facing AI systems, recommendation loops, personalization, and safety behavior.",
+  "Global and equity research on language, access, disability, culture, and uneven product governance."
+];
+
+const formula = siteData.researchDensity.scoreFormula;
+const tierLabels = siteData.researchDensity.tierLabels;
+const densityMatrix = siteData.researchDensity.matrix;
+const assetPath = (file: string) => `${import.meta.env.BASE_URL}assets/${file}`;
+const tierLabel = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].label;
+const tierMeaning = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].meaning;
+const title = `${siteData.title} | Research Landscape`;
+const description = siteData.subtitle;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="site-shell">
+    <div class="page-grid">
+      <aside class="toc" aria-label="Section navigation">
+        <nav class="flex gap-2 p-3 text-sm lg:block lg:space-y-1 lg:p-4">
+          {
+            navItems.map(([href, label]) => (
+              <a
+                href={`#${href}`}
+                class="inline-flex rounded-sm px-3 py-2 font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal lg:flex"
+              >
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <main>
+        <section id="hero" class="min-h-[92vh] py-10 sm:py-14 lg:py-20">
+          <div class="grid min-h-[72vh] content-between gap-12">
+            <div class="max-w-5xl">
+              <p class="section-kicker">01 / Developmental science strategy brief</p>
+              <h1 class="mt-5 max-w-5xl font-serif text-[clamp(3.6rem,10vw,8.7rem)] font-bold leading-[0.9] tracking-normal text-navy">
+                {siteData.title}
+              </h1>
+              <p class="mt-8 max-w-3xl text-xl leading-8 text-slate-600 sm:text-2xl sm:leading-10">
+                {siteData.subtitle}
+              </p>
+            </div>
+
+            <div class="grid gap-4 border-y border-line py-6 md:grid-cols-3">
+              <div>
+                <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">Analytic unit</p>
+                <p class="mt-2 text-lg font-semibold text-navy">Developmental period x domain</p>
+              </div>
+              <div>
+                <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">Overlay</p>
+                <p class="mt-2 text-lg font-semibold text-navy">Exposure, mechanism, outcome, evidence, priority</p>
+              </div>
+              <div>
+                <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">Output</p>
+                <p class="mt-2 text-lg font-semibold text-navy">A research priority map for AI and childhood</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+              {
+                [
+                  ["#field-map", "Field Map"],
+                  ["#research-density", "Research Density"],
+                  ["#overlay-framework", "AI Impact Framework"],
+                  ["#landscape", "Research Landscape"],
+                  ["#open-questions", "Open Questions"]
+                ].map(([href, label]) => (
+                  <a
+                    href={href}
+                    class="border border-navy px-4 py-3 text-sm font-bold text-navy transition hover:bg-navy hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
+                  >
+                    {label}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </section>
+
+        <section id="why" class="section-panel">
+          <p class="section-kicker">02 / Why this matters</p>
+          <h2 class="section-title mt-4">AI is not screen time 2.0.</h2>
+          <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div class="space-y-6">
+              <p class="section-lede">
+                AI can act as tutor, companion, media environment, feedback system, data collector, and institutional infrastructure. That makes the developmental question broader than usage minutes or device access.
+              </p>
+              <FramingNote />
+            </div>
+            <div class="content-card p-6">
+              <p class="text-sm font-bold uppercase tracking-[0.08em] text-clay">Decision lens</p>
+              <p class="mt-4 text-2xl font-bold leading-tight text-navy">
+                The question is how AI changes the developmental environment across age, context, and time.
+              </p>
+              <p class="mt-4 text-sm leading-6 text-slate-600">
+                A useful research map separates baseline child development from AI-specific mechanisms. That keeps product claims, classroom debates, and policy concerns attached to measurable developmental outcomes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="field-map" class="section-panel">
+          <p class="section-kicker">03 / Child Development Field Map</p>
+          <h2 class="section-title mt-4">Start with the field, not the product category.</h2>
+          <p class="section-lede mt-6">
+            Each research question sits at the intersection of five axes. The matrix below makes the core period by domain structure explicit for readers and search engines.
+          </p>
+
+          <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {
+              fieldAxes.map((axis, index) => (
+                <article class="metric-card p-5">
+                  <p class="text-sm font-black text-teal">0{index + 1}</p>
+                  <h3 class="mt-3 text-xl font-bold text-navy">{axis.title}</h3>
+                  <p class="mt-3 text-sm leading-6 text-slate-600">{axis.body}</p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {axis.items.map((item) => (
+                      <span class="bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">{item}</span>
+                    ))}
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+
+          <div class="table-scroll mt-10">
+            <table class="matrix-table" aria-label="Developmental period by developmental domain matrix">
+              <thead>
+                <tr>
+                  <th scope="col">Developmental period</th>
+                  {siteData.domains.map((domain) => <th scope="col">{domain}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  siteData.periods.map((period) => (
+                    <tr>
+                      <th scope="row">{period}</th>
+                      {siteData.domains.map((domain) => (
+                        <td>
+                          <div class="matrix-cell p-3">
+                            <span class="block font-bold text-navy">{domain}</span>
+                            <span class="mt-2 block">Study AI exposure, mechanism, and outcome in {period.toLowerCase()}.</span>
+                          </div>
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="layered-matrix" class="section-panel">
+          <p class="section-kicker">04 / Layered Matrix</p>
+          <h2 class="section-title mt-4">Turn each matrix cell into a research brief.</h2>
+          <p class="section-lede mt-6">
+            A useful cell is not just an age and outcome label. It should hold a short research memo: what is being studied, where it happens, how it is measured, why it may matter, and what outcome would count as evidence.
+          </p>
+
+          <div class="mt-10 grid gap-4 md:grid-cols-5">
+            {
+              layeredAnnotations.map((layer, index) => (
+                <article class="content-card p-5">
+                  <p class="text-sm font-black text-ochre">Layer {index + 1}</p>
+                  <h3 class="mt-3 text-xl font-bold text-navy">{layer.title}</h3>
+                  <p class="mt-3 text-sm leading-6 text-slate-600">{layer.body}</p>
+                </article>
+              ))
+            }
+          </div>
+
+          <div class="mt-10 grid gap-5 lg:grid-cols-3">
+            {
+              visualAssets.map((image) => (
+                <figure class="content-card overflow-hidden">
+                  <img src={assetPath(image.file)} alt={image.alt} class="h-full w-full object-cover" loading="lazy" />
+                  <figcaption class="border-t border-line px-4 py-3 text-sm font-semibold text-slate-600">
+                    {image.caption}
+                  </figcaption>
+                </figure>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="research-density" class="section-panel">
+          <p class="section-kicker">05 / Research-Density Heat Map</p>
+          <h2 class="section-title mt-4">Use density as a directional prior, not a scoreboard.</h2>
+          <p class="section-lede mt-6">
+            The tiering below is illustrative. A rigorous version should be rebuilt with controlled vocabulary searches across databases such as PsycINFO, PubMed, ERIC, Scopus, Web of Science, or OpenAlex.
+          </p>
+
+          <div class="mt-10 grid gap-4 md:grid-cols-3">
+            <div class="metric-card p-6">
+              <p class="text-4xl font-black text-navy">{Math.round(formula.publicationVolume * 100)}%</p>
+              <h3 class="mt-2 text-lg font-bold text-navy">Publication volume</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">How much direct and adjacent literature exists.</p>
+            </div>
+            <div class="metric-card p-6">
+              <p class="text-4xl font-black text-navy">{Math.round(formula.evidenceMaturity * 100)}%</p>
+              <h3 class="mt-2 text-lg font-bold text-navy">Evidence maturity</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Reviews, RCTs, longitudinal evidence, validated measures, and convergent findings.</p>
+            </div>
+            <div class="metric-card p-6">
+              <p class="text-4xl font-black text-navy">{Math.round(formula.recentMomentum * 100)}%</p>
+              <h3 class="mt-2 text-lg font-bold text-navy">Recent momentum</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600">How quickly the area is growing in recent work and public attention.</p>
+            </div>
+          </div>
+
+          <div class="mt-10 table-scroll">
+            <table class="matrix-table" aria-label="Research density heat map by developmental period and domain">
+              <thead>
+                <tr>
+                  <th scope="col">Developmental period</th>
+                  {siteData.domains.map((domain) => <th scope="col">{domain}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  densityMatrix.map((row, rowIndex) => (
+                    <tr>
+                      <th scope="row">{siteData.periods[rowIndex]}</th>
+                      {
+                        row.map((tier, colIndex) => (
+                          <td>
+                            <div
+                              tabindex="0"
+                              role="img"
+                              class={`heatmap-cell tier-${tier}`}
+                              title={`${siteData.periods[rowIndex]} x ${siteData.domains[colIndex]}: tier ${tier}, ${tierLabel(tier)} - ${tierMeaning(tier)}.`}
+                              aria-label={`${siteData.periods[rowIndex]} by ${siteData.domains[colIndex]} has research-density tier ${tier}: ${tierLabel(tier)}, ${tierMeaning(tier)}.`}
+                            >
+                              <span>
+                                <span class="heatmap-score">{tier}</span>
+                                <span class="heatmap-label">{tierLabel(tier)}</span>
+                              </span>
+                              <span class="heatmap-tooltip" aria-hidden="true">
+                                <strong class="block text-sm text-navy">
+                                  {siteData.periods[rowIndex]} x {siteData.domains[colIndex]}
+                                </strong>
+                                <span class="mt-1 block text-sm leading-5">
+                                  Tier {tier}: {tierLabel(tier)} - {tierMeaning(tier)}.
+                                </span>
+                              </span>
+                            </div>
+                          </td>
+                        ))
+                      }
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mt-6 grid gap-3 md:grid-cols-5" aria-label="Research density tier legend">
+            {
+              Object.entries(tierLabels).map(([tier, info]) => (
+                <div class={`tier-${tier} p-4`}>
+                  <p class="text-lg font-black">Tier {tier}</p>
+                  <p class="text-sm font-bold">{info.label}</p>
+                  <p class="mt-1 text-xs leading-5">{info.meaning}</p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="overlay-framework" class="section-panel">
+          <p class="section-kicker">06 / AI Impact Overlay Framework</p>
+          <h2 class="section-title mt-4">Layer AI-specific mechanisms on top of developmental science.</h2>
+          <p class="section-lede mt-6">
+            The overlay separates what children encounter from how that encounter might change learning, relationships, regulation, agency, identity, or institutional treatment.
+          </p>
+
+          <div class="mt-10 grid gap-4 lg:grid-cols-5">
+            {
+              siteData.aiOverlayLayers.map((layer) => (
+                <article class="content-card p-5">
+                  <div class="flex h-11 w-11 items-center justify-center bg-navy text-lg font-black text-white">
+                    {layer.id}
+                  </div>
+                  <h3 class="mt-4 text-xl font-bold text-navy">{layer.title}</h3>
+                  <ul class="mt-4 space-y-2 text-sm leading-5 text-slate-600">
+                    {layer.items.map((item) => <li>{item}</li>)}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="where-first" class="section-panel">
+          <p class="section-kicker">07 / Where to Study First</p>
+          <h2 class="section-title mt-4">Start where the measurement base is strongest, then move into AI-native mechanisms.</h2>
+          <p class="section-lede mt-6">
+            The practical research sequence is anchor, frontier, watchlist. Mature domains create rigor; frontier domains capture what AI may make newly possible; watchlist zones track fast product change.
+          </p>
+
+          <div class="mt-10 grid gap-5 lg:grid-cols-3">
+            {
+              siteData.priorityBuckets.map((bucket, index) => (
+                <article class="content-card p-6">
+                  <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">Bucket {index + 1}</p>
+                  <h3 class="mt-3 text-2xl font-bold text-navy">{bucket.name}</h3>
+                  <p class="mt-3 text-sm leading-6 text-slate-600">{bucket.summary}</p>
+                  <div class="mt-5">
+                    <p class="text-sm font-bold uppercase tracking-[0.08em] text-slate-500">Traits</p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                      {bucket.traits.map((trait) => (
+                        <span class="bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">{trait}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div class="mt-5">
+                    <p class="text-sm font-bold uppercase tracking-[0.08em] text-slate-500">Examples</p>
+                    <ul class="mt-3 space-y-2 text-sm leading-6 text-slate-600">
+                      {bucket.examples.map((example) => <li>{example}</li>)}
+                    </ul>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="landscape" class="section-panel">
+          <p class="section-kicker">08 / Early Research Landscape</p>
+          <h2 class="section-title mt-4">Seven streams define the early evidence map.</h2>
+          <p class="section-lede mt-6">
+            The current landscape is strongest around learning, literacy, and schoolwork. The urgent gaps are companionship, early-childhood products, invisible AI, and long-term developmental effects.
+          </p>
+
+          <div class="mt-10 table-scroll">
+            <table class="matrix-table" aria-label="Research streams, maturity, matrix cells, and open questions">
+              <thead>
+                <tr>
+                  <th scope="col">Research stream</th>
+                  <th scope="col">Current status</th>
+                  <th scope="col">Relevant matrix cells</th>
+                  <th scope="col">Open questions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  siteData.researchStreams.map((stream) => (
+                    <tr>
+                      <th scope="row">{stream.name}</th>
+                      <td class="text-sm leading-6 text-slate-700">{stream.status}</td>
+                      <td>
+                        <ul class="space-y-2 text-sm leading-5 text-slate-600">
+                          {stream.cells.map((cell) => <li>{cell}</li>)}
+                        </ul>
+                      </td>
+                      <td>
+                        <ul class="space-y-2 text-sm leading-5 text-slate-600">
+                          {stream.openQuestions.map((question) => <li>{question}</li>)}
+                        </ul>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="open-questions" class="section-panel">
+          <p class="section-kicker">09 / Open Questions</p>
+          <h2 class="section-title mt-4">The evidence frontier is longitudinal, causal, product-specific, and equity-sensitive.</h2>
+          <div class="mt-10 grid gap-4 md:grid-cols-2">
+            {
+              openQuestions.map((question, index) => (
+                <article class="metric-card p-5">
+                  <p class="text-sm font-black text-ochre">Question {index + 1}</p>
+                  <p class="mt-3 text-lg font-semibold leading-7 text-navy">{question}</p>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="sources" class="section-panel">
+          <p class="section-kicker">10 / Sources and Further Reading</p>
+          <h2 class="section-title mt-4">A starting shelf for research, design, and policy teams.</h2>
+          <p class="section-lede mt-6">
+            Source cards are included as a practical reading path. Links were checked during implementation on April 28, 2026.
+          </p>
+
+          <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {
+              sources.map((source) => (
+                <article class="content-card p-5">
+                  <div class="flex items-start justify-between gap-4">
+                    <div>
+                      <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">{source.organization}</p>
+                      <h3 class="mt-2 text-xl font-bold leading-tight text-navy">{source.title}</h3>
+                    </div>
+                    <span class="shrink-0 border border-line px-2.5 py-1 text-xs font-bold text-slate-600">{source.year}</span>
+                  </div>
+                  <p class="mt-4 text-sm leading-6 text-slate-600">{source.whyItMatters}</p>
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="mt-5 inline-flex text-sm font-bold text-navy underline decoration-teal decoration-2 underline-offset-4"
+                  >
+                    Open source
+                  </a>
+                </article>
+              ))
+            }
+          </div>
+
+          <blockquote class="mt-14 border-l-4 border-teal pl-6 text-2xl font-semibold leading-10 text-navy">
+            The right question is not simply whether children are using AI. The right question is how AI changes the developmental environment - cognitively, socially, emotionally, educationally, and ethically - across age, context, and time.
+          </blockquote>
+        </section>
+      </main>
+    </div>
+  </div>
+</BaseLayout>
