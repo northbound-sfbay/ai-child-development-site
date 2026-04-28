@@ -370,7 +370,7 @@ const description = siteData.subtitle;
           </div>
 
           <div class="mt-10 table-scroll">
-            <table class="matrix-table" aria-label="Research density heat map by developmental period and domain">
+            <table class="matrix-table heatmap-table" aria-label="Research density heat map by developmental period and domain">
               <thead>
                 <tr>
                   <th scope="col">Developmental period</th>
@@ -384,11 +384,11 @@ const description = siteData.subtitle;
                       <th scope="row">{siteData.periods[rowIndex]}</th>
                       {
                         row.map((tier, colIndex) => (
-                          <td>
+                          <td class={`heatmap-td tier-${tier}`}>
                             <div
                               tabindex="0"
                               role="img"
-                              class={`heatmap-cell tier-${tier}`}
+                              class="heatmap-cell"
                               title={`${siteData.periods[rowIndex]} x ${siteData.domains[colIndex]}: tier ${tier}, ${tierLabel(tier)} - ${tierMeaning(tier)}.`}
                               aria-label={`${siteData.periods[rowIndex]} by ${siteData.domains[colIndex]} has research-density tier ${tier}: ${tierLabel(tier)}, ${tierMeaning(tier)}.`}
                             >
