@@ -157,6 +157,11 @@
     text-transform: uppercase;
   }
 
+  .matrix-table thead th.domain-head {
+    border-top: 5px solid var(--domain-accent);
+    background: linear-gradient(180deg, var(--domain-head-bg) 0%, #ffffff 100%);
+  }
+
   .matrix-table tbody th {
     background: #fbfcfd;
     color: var(--color-navy);
@@ -171,6 +176,92 @@
     color: #405062;
     font-size: 0.8rem;
     line-height: 1.35;
+  }
+
+  .domain-card {
+    border-color: var(--domain-border);
+    border-top: 5px solid var(--domain-accent);
+    background: linear-gradient(180deg, var(--domain-card-bg) 0%, #ffffff 100%);
+  }
+
+  .domain-card span:first-child {
+    color: #102a43;
+  }
+
+  .domain-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .domain-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid var(--domain-border);
+    background: var(--domain-card-bg);
+    padding: 0.35rem 0.55rem;
+    color: #24384d;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .domain-swatch {
+    display: inline-block;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgba(16, 42, 67, 0.1);
+  }
+
+  .domain-neural {
+    --domain-accent: #6f8fb7;
+    --domain-border: #cbd9ea;
+    --domain-card-bg: #f2f6fb;
+    --domain-head-bg: #e8f0f8;
+  }
+
+  .domain-cognitive {
+    --domain-accent: #7c6fb0;
+    --domain-border: #d5d0e8;
+    --domain-card-bg: #f5f3fb;
+    --domain-head-bg: #ece8f7;
+  }
+
+  .domain-language {
+    --domain-accent: #2f9f8f;
+    --domain-border: #bfe0dc;
+    --domain-card-bg: #eff9f7;
+    --domain-head-bg: #e0f2ef;
+  }
+
+  .domain-social {
+    --domain-accent: #7aa95c;
+    --domain-border: #d0e2c4;
+    --domain-card-bg: #f4f9f0;
+    --domain-head-bg: #eaf4e3;
+  }
+
+  .domain-emotional {
+    --domain-accent: #d5964b;
+    --domain-border: #ead8bc;
+    --domain-card-bg: #fbf6ee;
+    --domain-head-bg: #f5ead8;
+  }
+
+  .domain-identity {
+    --domain-accent: #b66a83;
+    --domain-border: #e4cad3;
+    --domain-card-bg: #fbf2f5;
+    --domain-head-bg: #f4e4ea;
+  }
+
+  .domain-learning {
+    --domain-accent: #5b90b8;
+    --domain-border: #c8dceb;
+    --domain-card-bg: #f0f6fb;
+    --domain-head-bg: #e4f0f8;
   }
 
   .heatmap-cell {

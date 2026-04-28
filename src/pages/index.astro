@@ -17,6 +17,44 @@ const navItems = [
   ["sources", "Sources"]
 ];
 
+const domainTones = [
+  {
+    key: "neural",
+    label: "Physical / Neural",
+    swatch: "#6f8fb7"
+  },
+  {
+    key: "cognitive",
+    label: "Cognitive / Executive Function",
+    swatch: "#7c6fb0"
+  },
+  {
+    key: "language",
+    label: "Language / Literacy",
+    swatch: "#2f9f8f"
+  },
+  {
+    key: "social",
+    label: "Social Development",
+    swatch: "#7aa95c"
+  },
+  {
+    key: "emotional",
+    label: "Emotional Regulation",
+    swatch: "#d5964b"
+  },
+  {
+    key: "identity",
+    label: "Identity / Moral Development",
+    swatch: "#b66a83"
+  },
+  {
+    key: "learning",
+    label: "Learning / Education",
+    swatch: "#5b90b8"
+  }
+];
+
 const fieldAxes = [
   {
     title: "Developmental period",
@@ -239,7 +277,7 @@ const description = siteData.subtitle;
               <thead>
                 <tr>
                   <th scope="col">Developmental period</th>
-                  {siteData.domains.map((domain) => <th scope="col">{domain}</th>)}
+                  {siteData.domains.map((domain, index) => <th scope="col" class={`domain-head domain-${domainTones[index].key}`}>{domain}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -247,9 +285,9 @@ const description = siteData.subtitle;
                   siteData.periods.map((period) => (
                     <tr>
                       <th scope="row">{period}</th>
-                      {siteData.domains.map((domain) => (
+                      {siteData.domains.map((domain, index) => (
                         <td>
-                          <div class="matrix-cell p-3">
+                          <div class={`matrix-cell domain-card domain-${domainTones[index].key} p-3`}>
                             <span class="block font-bold text-navy">{domain}</span>
                             <span class="mt-2 block">Study AI exposure, mechanism, and outcome in {period.toLowerCase()}.</span>
                           </div>
@@ -260,6 +298,16 @@ const description = siteData.subtitle;
                 }
               </tbody>
             </table>
+          </div>
+          <div class="domain-legend mt-4" aria-label="Developmental domain color legend">
+            {
+              domainTones.map((domain) => (
+                <span class={`domain-chip domain-${domain.key}`}>
+                  <span class="domain-swatch" style={`background: ${domain.swatch};`}></span>
+                  {domain.label}
+                </span>
+              ))
+            }
           </div>
         </section>
 
