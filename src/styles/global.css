@@ -284,6 +284,7 @@
 
   .heatmap-table {
     min-width: 980px;
+    table-layout: fixed;
   }
 
   .heatmap-table th,
@@ -297,15 +298,19 @@
     line-height: 1.25;
   }
 
+  .heatmap-table thead th:first-child,
+  .heatmap-table tbody th {
+    width: 145px;
+  }
+
   .heatmap-table tbody th {
     padding: 0.85rem;
     font-size: 0.9rem;
+    height: 96px;
     line-height: 1.25;
-    min-width: 145px;
   }
 
   .heatmap-td {
-    min-width: 112px;
     --heatmap-bg: #f2f5f8;
     --heatmap-fg: #102a43;
     --heatmap-border: #d1dbe5;
@@ -313,7 +318,7 @@
 
   .heatmap-table .heatmap-cell {
     min-height: 96px;
-    height: 100%;
+    height: 96px;
     border: 0;
     background: var(--heatmap-bg);
     color: var(--heatmap-fg);
