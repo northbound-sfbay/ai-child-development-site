@@ -106,39 +106,6 @@ const layeredAnnotations = [
   }
 ];
 
-const visualAssets = [
-  {
-    file: "child_development_research_overview_matrix.png",
-    alt: "Overview matrix for child development research periods and domains.",
-    caption: "Research overview matrix"
-  },
-  {
-    file: "child_development_research_field_map.png",
-    alt: "Field map of child development research dimensions.",
-    caption: "Field map reference visual"
-  },
-  {
-    file: "child_development_research_density_overview.png",
-    alt: "Overview of research density across child development domains.",
-    caption: "Research-density overview"
-  },
-  {
-    file: "child_development_research_density_heat_map.png",
-    alt: "Research density heat map across developmental periods and developmental domains.",
-    caption: "Density heat map reference visual"
-  },
-  {
-    file: "ai_s_impact_on_child_development_overview.png",
-    alt: "Overview diagram for AI impact on child development.",
-    caption: "AI impact framework reference visual"
-  },
-  {
-    file: "visualizing_ai_s_impact_on_child_development.png",
-    alt: "Visual framework for studying AI's impact on child development.",
-    caption: "Visual research framework"
-  }
-];
-
 const openQuestions = [
   "Longitudinal effects from repeated AI exposure across childhood and adolescence.",
   "Causal studies outside education, especially companionship, identity, sleep, and help-seeking.",
@@ -153,7 +120,6 @@ const formula = siteData.researchDensity.scoreFormula;
 const tierLabels = siteData.researchDensity.tierLabels;
 const densityMatrix = siteData.researchDensity.matrix;
 const fieldMap = siteData.fieldMap;
-const assetPath = (file: string) => `${import.meta.env.BASE_URL}assets/${file}`;
 const tierLabel = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].label;
 const tierMeaning = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].meaning;
 const title = `${siteData.title} | Research Landscape`;
@@ -332,19 +298,6 @@ const description = siteData.subtitle;
                   <h3 class="mt-3 text-xl font-bold text-navy">{layer.title}</h3>
                   <p class="mt-3 text-sm leading-6 text-slate-600">{layer.body}</p>
                 </article>
-              ))
-            }
-          </div>
-
-          <div class="mt-10 grid gap-5 lg:grid-cols-3">
-            {
-              visualAssets.map((image) => (
-                <figure class="content-card overflow-hidden">
-                  <img src={assetPath(image.file)} alt={image.alt} class="h-full w-full object-cover" loading="lazy" />
-                  <figcaption class="border-t border-line px-4 py-3 text-sm font-semibold text-slate-600">
-                    {image.caption}
-                  </figcaption>
-                </figure>
               ))
             }
           </div>
