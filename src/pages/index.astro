@@ -140,34 +140,34 @@ const description = siteData.subtitle;
       </aside>
 
       <main>
-        <section id="hero" class="min-h-[92vh] py-10 sm:py-14 lg:py-20">
-          <div class="grid min-h-[72vh] content-between gap-12">
+        <section id="hero" class="py-8 sm:py-10 lg:py-12">
+          <div class="grid gap-8">
             <div class="max-w-5xl">
               <p class="section-kicker">01 / Developmental science strategy brief</p>
-              <h1 class="mt-5 max-w-5xl font-serif text-[clamp(3.6rem,10vw,8.7rem)] font-bold leading-[0.9] tracking-normal text-navy">
+              <h1 class="mt-4 max-w-5xl font-serif text-[clamp(2.6rem,6.4vw,5.8rem)] font-bold leading-[0.94] tracking-normal text-navy">
                 {siteData.title}
               </h1>
-              <p class="mt-8 max-w-3xl text-xl leading-8 text-slate-600 sm:text-2xl sm:leading-10">
+              <p class="mt-5 max-w-3xl text-lg leading-7 text-slate-600 sm:text-xl sm:leading-8">
                 {siteData.subtitle}
               </p>
             </div>
 
-            <div class="grid gap-4 border-y border-line py-6 md:grid-cols-3">
+            <div class="grid gap-4 border-y border-line py-4 md:grid-cols-3">
               <div>
                 <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">Analytic unit</p>
-                <p class="mt-2 text-lg font-semibold text-navy">Developmental period x domain</p>
+                <p class="mt-1 text-base font-semibold text-navy">Developmental period x domain</p>
               </div>
               <div>
                 <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">Overlay</p>
-                <p class="mt-2 text-lg font-semibold text-navy">Exposure, mechanism, outcome, evidence, priority</p>
+                <p class="mt-1 text-base font-semibold text-navy">Exposure, mechanism, outcome, evidence, priority</p>
               </div>
               <div>
                 <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">Output</p>
-                <p class="mt-2 text-lg font-semibold text-navy">A research priority map for AI and childhood</p>
+                <p class="mt-1 text-base font-semibold text-navy">A research priority map for AI and childhood</p>
               </div>
             </div>
 
-            <div class="flex flex-wrap gap-3">
+            <div class="flex flex-wrap gap-2">
               {
                 [
                   ["#field-map", "Field Map"],
@@ -178,7 +178,7 @@ const description = siteData.subtitle;
                 ].map(([href, label]) => (
                   <a
                     href={href}
-                    class="border border-navy px-4 py-3 text-sm font-bold text-navy transition hover:bg-navy hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
+                    class="border border-navy px-3 py-2 text-sm font-bold text-navy transition hover:bg-navy hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal"
                   >
                     {label}
                   </a>
