@@ -1,0 +1,132 @@
+{
+  "title": "AI's Impact on Child Development",
+  "subtitle": "A developmental science framework for understanding where AI may matter, how to study it, and what research is emerging.",
+  "periods": [
+    "Prenatal / Perinatal",
+    "Infancy (0–2)",
+    "Early Childhood (2–6)",
+    "Middle Childhood (6–12)",
+    "Adolescence (12–18+)"
+  ],
+  "domains": [
+    "Physical / Neural",
+    "Cognitive / Executive Function",
+    "Language / Literacy",
+    "Social Development",
+    "Emotional Regulation",
+    "Identity / Moral Development",
+    "Learning / Education"
+  ],
+  "researchDensity": {
+    "scoreFormula": {
+      "publicationVolume": 0.5,
+      "evidenceMaturity": 0.3,
+      "recentMomentum": 0.2
+    },
+    "tierLabels": {
+      "5": { "label": "Very high", "meaning": "large, mature, active literature" },
+      "4": { "label": "High", "meaning": "well-studied" },
+      "3": { "label": "Moderate", "meaning": "established but uneven" },
+      "2": { "label": "Low", "meaning": "limited or narrower literature" },
+      "1": { "label": "Sparse", "meaning": "few direct studies" }
+    },
+    "matrix": [
+      [5, 2, 2, 3, 4, 1, 3],
+      [5, 4, 5, 5, 4, 2, 3],
+      [4, 5, 5, 5, 5, 4, 5],
+      [4, 5, 5, 5, 5, 4, 5],
+      [5, 4, 3, 5, 5, 5, 5]
+    ]
+  },
+  "aiOverlayLayers": [
+    {
+      "id": "A",
+      "title": "AI exposure type",
+      "items": ["tutor", "chatbot", "companion", "classroom AI", "creative tool", "AI toy", "voice assistant"]
+    },
+    {
+      "id": "B",
+      "title": "Mechanism of impact",
+      "items": ["scaffolding", "displacement", "reinforcement", "modeling", "cognitive offloading", "social substitution", "personalization", "identity shaping"]
+    },
+    {
+      "id": "C",
+      "title": "Outcome measures",
+      "items": ["learning", "language", "self-regulation", "social behavior", "mental health", "identity", "sleep", "attention"]
+    },
+    {
+      "id": "D",
+      "title": "Evidence strength",
+      "items": ["baseline maturity", "AI-specific evidence", "methodological quality", "longitudinal evidence", "causal evidence", "validated measures"]
+    },
+    {
+      "id": "E",
+      "title": "Priority / urgency",
+      "items": ["prevalence", "developmental sensitivity", "potential upside", "potential downside", "feasibility", "equity implications"]
+    }
+  ],
+  "priorityBuckets": [
+    {
+      "name": "Anchor zones",
+      "summary": "Well-researched developmental areas where AI effects are easiest to study rigorously.",
+      "traits": ["Clear theories", "Validated measures", "Strong baseline literature", "Best starting point for causal inference"],
+      "examples": ["Early language", "School-age learning", "Executive function", "Adolescent mental health"]
+    },
+    {
+      "name": "Frontier zones",
+      "summary": "High-impact, lower-evidence areas where AI may create novel developmental mechanisms.",
+      "traits": ["High potential impact", "Lower direct evidence", "Novel mechanisms", "Exploratory but important"],
+      "examples": ["AI companionship", "Identity formation", "Attachment-like dynamics", "Social substitution", "Cognitive offloading"]
+    },
+    {
+      "name": "Watchlist zones",
+      "summary": "Fast-moving product or indirect-exposure zones with thin evidence.",
+      "traits": ["Emerging or indirect effects", "Family systems and inequality", "Long-term developmental cascades", "Privacy and surveillance"],
+      "examples": ["AI toys", "Parenting patterns", "Infancy exposure", "AI-generated content", "Equity effects"]
+    }
+  ],
+  "researchStreams": [
+    {
+      "name": "AI in learning, tutoring, and schoolwork",
+      "status": "most mature / evidence-ready",
+      "cells": ["Middle childhood × Learning / Education", "Adolescence × Learning / Education", "Language / Literacy across school age"],
+      "openQuestions": ["Can AI tutoring improve learning outcomes?", "Does it scaffold reasoning or simply generate answers?", "How should human teachers remain in the loop?"]
+    },
+    {
+      "name": "Early childhood, language, literacy, and AI interaction",
+      "status": "emerging but important",
+      "cells": ["Early childhood × Language / Literacy", "Early childhood × Cognitive / Executive Function", "Early childhood × Social Development"],
+      "openQuestions": ["Does AI conversation support vocabulary and storytelling?", "Can young children distinguish AI from humans?", "Does AI displace caregiver talk or enrich it?"]
+    },
+    {
+      "name": "Teen AI companions, emotional support, and mental health",
+      "status": "high urgency, lower causal evidence",
+      "cells": ["Adolescence × Emotional Regulation", "Adolescence × Social Development", "Adolescence × Identity / Moral Development"],
+      "openQuestions": ["Does AI companionship reduce loneliness or increase social avoidance?", "What are risks of dependency and therapeutic boundary confusion?"]
+    },
+    {
+      "name": "Literacy, writing, and academic integrity",
+      "status": "rapidly growing",
+      "cells": ["Middle childhood × Language / Literacy", "Adolescence × Language / Literacy", "Learning / Education across school age"],
+      "openQuestions": ["Does AI support writing as thinking or replace it?", "How are schools defining authorship and integrity?"]
+    },
+    {
+      "name": "AI literacy, trust, misinformation, and children’s understanding of AI",
+      "status": "cross-cutting and increasingly central",
+      "cells": ["Cognitive / Executive Function", "Language / Literacy", "Identity / Moral Development", "Learning / Education"],
+      "openQuestions": ["Can children identify AI-generated misinformation?", "How should AI literacy be taught by age?"]
+    },
+    {
+      "name": "Early-childhood products, AI toys, and invisible AI",
+      "status": "under-studied, high watchlist importance",
+      "cells": ["Infancy × Social Development", "Early childhood × Social / Emotional Development", "Early childhood × Language / Literacy"],
+      "openQuestions": ["How do AI toys and voice assistants affect early interaction?", "What happens when AI exposure is passive or invisible?"]
+    },
+    {
+      "name": "Policy, safety, and research infrastructure",
+      "status": "highly active",
+      "cells": ["Cross-cutting across all periods and domains"],
+      "openQuestions": ["What guidelines should govern AI companions, school tools, and AI toys?", "What research infrastructure is needed to evaluate products?"]
+    }
+  ]
+}
