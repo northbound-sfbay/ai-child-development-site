@@ -1,6 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}"],
+  safelist: [
+    "domain-neural",
+    "domain-cognitive",
+    "domain-language",
+    "domain-social",
+    "domain-emotional",
+    "domain-identity",
+    "domain-learning"
+  ],
   theme: {
     extend: {
       colors: {

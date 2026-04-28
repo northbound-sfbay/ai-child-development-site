@@ -287,9 +287,8 @@ const description = siteData.subtitle;
                       <th scope="row">{period}</th>
                       {siteData.domains.map((domain, index) => (
                         <td>
-                          <div class={`matrix-cell domain-card domain-${domainTones[index].key} p-3`}>
-                            <span class="block font-bold text-navy">{domain}</span>
-                            <span class="mt-2 block">Study AI exposure, mechanism, and outcome in {period.toLowerCase()}.</span>
+                          <div class={`matrix-cell domain-card domain-${domainTones[index].key}`}>
+                            <span class="block">Study AI exposure, mechanism, and outcome.</span>
                           </div>
                         </td>
                       ))}
@@ -384,7 +383,7 @@ const description = siteData.subtitle;
                       <th scope="row">{siteData.periods[rowIndex]}</th>
                       {
                         row.map((tier, colIndex) => (
-                          <td class={`heatmap-td tier-${tier}`}>
+                          <td class="heatmap-td" data-tier={tier}>
                             <div
                               tabindex="0"
                               role="img"
@@ -418,7 +417,7 @@ const description = siteData.subtitle;
           <div class="mt-6 grid gap-3 md:grid-cols-5" aria-label="Research density tier legend">
             {
               Object.entries(tierLabels).map(([tier, info]) => (
-                <div class={`tier-${tier} p-4`}>
+                <div class="tier-key p-4" data-tier={tier}>
                   <p class="text-lg font-black">Tier {tier}</p>
                   <p class="text-sm font-bold">{info.label}</p>
                   <p class="mt-1 text-xs leading-5">{info.meaning}</p>
