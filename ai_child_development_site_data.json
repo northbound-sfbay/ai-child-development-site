@@ -17,6 +17,193 @@
     "Identity / Moral Development",
     "Learning / Education"
   ],
+  "fieldMap": [
+    [
+      {
+        "focus": "fetal growth, brain architecture",
+        "context": "maternal health, prenatal care",
+        "methods": "ultrasound, cohort, biomarkers"
+      },
+      {
+        "focus": "sensory readiness, arousal",
+        "context": "womb environment",
+        "methods": "fetal monitoring, cohort, physiology"
+      },
+      {
+        "focus": "auditory exposure, rhythm sensitivity",
+        "context": "caregiver voice, home language",
+        "methods": "newborn preference tasks, cohort"
+      },
+      {
+        "focus": "relational environment, bonding context",
+        "context": "family stress, support",
+        "methods": "cohort, interview, observation"
+      },
+      {
+        "focus": "stress biology foundations",
+        "context": "maternal stress, caregiving transition",
+        "methods": "cortisol, physiology, cohort"
+      },
+      {
+        "focus": "little direct focus",
+        "context": "family values, culture",
+        "methods": "conceptual work, follow-up studies"
+      },
+      {
+        "focus": "caregiving risk/protection",
+        "context": "home resources, prenatal services",
+        "methods": "cohort, intervention evaluation"
+      }
+    ],
+    [
+      {
+        "focus": "sleep, motor milestones, growth",
+        "context": "home, pediatric care",
+        "methods": "observation, milestones, physiology"
+      },
+      {
+        "focus": "object permanence, attention, memory",
+        "context": "play, caregiver interaction",
+        "methods": "lab tasks, eye-tracking, longitudinal"
+      },
+      {
+        "focus": "babbling, first words, joint attention",
+        "context": "caregiver talk, book sharing",
+        "methods": "language samples, parent report, longitudinal"
+      },
+      {
+        "focus": "attachment, imitation, social referencing",
+        "context": "caregiver-child dyads",
+        "methods": "observation, experiment, longitudinal"
+      },
+      {
+        "focus": "temperament, co-regulation, soothing",
+        "context": "routines, caregiver response",
+        "methods": "parent report, observation, physiology"
+      },
+      {
+        "focus": "self-other distinction, intentionality",
+        "context": "mirror play, interaction",
+        "methods": "imitation tasks, observation"
+      },
+      {
+        "focus": "exploration, routine learning, play",
+        "context": "home, childcare",
+        "methods": "observation, intervention, report"
+      }
+    ],
+    [
+      {
+        "focus": "motor refinement, sleep, health habits",
+        "context": "home, preschool, play",
+        "methods": "observation, assessment, cohort"
+      },
+      {
+        "focus": "symbolic thought, EF, theory of mind",
+        "context": "preschool, play",
+        "methods": "experiments, EF tasks, longitudinal"
+      },
+      {
+        "focus": "vocabulary, grammar, storytelling, pre-literacy",
+        "context": "conversation, books, preschool",
+        "methods": "language tests, observation, longitudinal"
+      },
+      {
+        "focus": "play, friendship, sharing",
+        "context": "preschool, peers",
+        "methods": "observation, peer tasks, report"
+      },
+      {
+        "focus": "empathy, self-control, frustration tolerance",
+        "context": "family, classroom",
+        "methods": "observation, report, tasks"
+      },
+      {
+        "focus": "fairness, rules, gender/self-concept",
+        "context": "family, peers, culture",
+        "methods": "interviews, story tasks, observation"
+      },
+      {
+        "focus": "school readiness, play-based learning",
+        "context": "preschool, home learning",
+        "methods": "assessments, RCTs, classroom observation"
+      }
+    ],
+    [
+      {
+        "focus": "coordination, activity, sleep/health",
+        "context": "school, sports, home",
+        "methods": "growth measures, report, cohort"
+      },
+      {
+        "focus": "working memory, reasoning, sustained attention",
+        "context": "classroom, homework",
+        "methods": "cognitive tasks, assessments, longitudinal"
+      },
+      {
+        "focus": "reading comprehension, writing, academic language",
+        "context": "school, reading at home",
+        "methods": "standardized tests, writing samples, interventions"
+      },
+      {
+        "focus": "peer groups, cooperation, bullying/status",
+        "context": "school, teams, online",
+        "methods": "peer nominations, survey, observation"
+      },
+      {
+        "focus": "competence, anxiety, self-management",
+        "context": "school demands, family stress",
+        "methods": "surveys, report, physiology"
+      },
+      {
+        "focus": "group identity, values, moral reasoning",
+        "context": "peers, school, culture",
+        "methods": "interviews, dilemmas, longitudinal"
+      },
+      {
+        "focus": "formal schooling, motivation, skill building",
+        "context": "classroom, tutoring",
+        "methods": "tests, RCTs, classroom observation"
+      }
+    ],
+    [
+      {
+        "focus": "puberty, sleep shifts, brain maturation",
+        "context": "school, family, health systems",
+        "methods": "MRI/EEG, hormones, longitudinal"
+      },
+      {
+        "focus": "abstract reasoning, planning, risk evaluation",
+        "context": "peers, school, digital environments",
+        "methods": "tasks, fMRI/EEG, longitudinal"
+      },
+      {
+        "focus": "argumentation, digital communication, self-expression",
+        "context": "peers, school, online",
+        "methods": "discourse analysis, surveys, writing samples"
+      },
+      {
+        "focus": "peer influence, intimacy, autonomy",
+        "context": "peer networks, social media, family",
+        "methods": "surveys, network analysis, diary studies"
+      },
+      {
+        "focus": "mood regulation, stress, mental health",
+        "context": "peers, school pressure, family",
+        "methods": "self-report, diary, physiology"
+      },
+      {
+        "focus": "identity formation, beliefs, sexuality, autonomy",
+        "context": "culture, peers, online communities",
+        "methods": "interviews, longitudinal, survey"
+      },
+      {
+        "focus": "academic pathways, future orientation, self-directed learning",
+        "context": "school, extracurriculars, digital tools",
+        "methods": "achievement data, surveys, interventions"
+      }
+    ]
+  ],
   "researchDensity": {
     "scoreFormula": {
       "publicationVolume": 0.5,

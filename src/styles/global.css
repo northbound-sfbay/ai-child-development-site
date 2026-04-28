@@ -172,19 +172,40 @@
   }
 
   .matrix-cell {
-    min-height: 58px;
+    min-height: 116px;
     border: 1px solid #e8edf2;
     background: #fbfcfd;
     color: #405062;
-    font-size: 0.8rem;
-    line-height: 1.35;
+    font-size: 0.68rem;
+    line-height: 1.28;
   }
 
   .domain-card {
     border-color: var(--domain-border);
-    border-left: 5px solid var(--domain-accent);
+    border-left: 4px solid var(--domain-accent);
     background: var(--domain-card-bg);
-    padding: 0.75rem;
+    padding: 0.6rem;
+  }
+
+  .matrix-cell p + p {
+    margin-top: 0.35rem;
+  }
+
+  .cell-label {
+    margin-right: 0.3rem;
+    font-weight: 900;
+  }
+
+  .focus-label {
+    color: #0b5ea8;
+  }
+
+  .context-label {
+    color: #1d766b;
+  }
+
+  .methods-label {
+    color: #5e43a8;
   }
 
   .domain-legend {

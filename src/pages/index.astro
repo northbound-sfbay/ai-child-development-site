@@ -152,6 +152,7 @@ const openQuestions = [
 const formula = siteData.researchDensity.scoreFormula;
 const tierLabels = siteData.researchDensity.tierLabels;
 const densityMatrix = siteData.researchDensity.matrix;
+const fieldMap = siteData.fieldMap;
 const assetPath = (file: string) => `${import.meta.env.BASE_URL}assets/${file}`;
 const tierLabel = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].label;
 const tierMeaning = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].meaning;
@@ -282,16 +283,22 @@ const description = siteData.subtitle;
               </thead>
               <tbody>
                 {
-                  siteData.periods.map((period) => (
+                  siteData.periods.map((period, periodIndex) => (
                     <tr>
                       <th scope="row">{period}</th>
-                      {siteData.domains.map((domain, index) => (
+                      {siteData.domains.map((domain, index) => {
+                        const cell = fieldMap[periodIndex][index];
+
+                        return (
                         <td>
                           <div class={`matrix-cell domain-card domain-${domainTones[index].key}`}>
-                            <span class="block">Study AI exposure, mechanism, and outcome.</span>
+                            <p><span class="cell-label focus-label">Focus</span>{cell.focus}</p>
+                            <p><span class="cell-label context-label">Context</span>{cell.context}</p>
+                            <p><span class="cell-label methods-label">Methods</span>{cell.methods}</p>
                           </div>
                         </td>
-                      ))}
+                        );
+                      })}
                     </tr>
                   ))
                 }
