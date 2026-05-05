@@ -7,11 +7,13 @@ import siteData from "../../ai_child_development_site_data.json";
 const navItems = [
   ["hero", "Hero"],
   ["why", "Why this matters"],
+  ["roadmap-goal", "Roadmap Goal"],
+  ["bottlenecks", "Bottlenecks"],
   ["field-map", "Field Map"],
-  ["layered-matrix", "Layered Matrix"],
   ["research-density", "Research Density"],
-  ["overlay-framework", "AI Overlay"],
-  ["where-first", "Where First"],
+  ["program-template", "Program Template"],
+  ["priority-portfolio", "Priority Portfolio"],
+  ["catalytic-programs", "Catalytic Programs"],
   ["landscape", "Landscape"],
   ["open-questions", "Open Questions"],
   ["sources", "Sources"]
@@ -83,37 +85,138 @@ const fieldAxes = [
   }
 ];
 
-const layeredAnnotations = [
+const roadmapGoalPillars = [
   {
-    title: "Focus",
-    body: "The focal behavior or developmental claim inside a period by domain cell."
+    label: "Big if true",
+    title: "A rigorous field for child-AI evidence",
+    body: "What if child-facing AI could be measured, audited, compared, and studied longitudinally across age, context, and developmental domain?"
   },
   {
-    title: "Context",
-    body: "Where the exposure happens: family, school, peer life, clinical care, or platform environment."
+    label: "Success state",
+    title: "Comparable evidence instead of isolated claims",
+    body: "Researchers, schools, families, product teams, and policymakers can evaluate AI systems against shared exposure, mechanism, outcome, and evidence standards."
   },
   {
-    title: "Methods",
-    body: "How the question can be studied with enough rigor for the decision at hand."
-  },
-  {
-    title: "Mechanisms",
-    body: "The pathway from AI exposure to developmental outcome: scaffolding, substitution, modeling, offloading, or reinforcement."
-  },
-  {
-    title: "Outcomes",
-    body: "The observable child, family, classroom, or policy outcome that should move if the mechanism is real."
+    label: "Roadmap horizon",
+    title: "A 3-5 year research infrastructure agenda",
+    body: "The goal is not one definitive answer. It is a coordinated path toward cohorts, testbeds, measures, audits, and causal designs that make answers possible."
   }
 ];
 
-const openQuestions = [
-  "Longitudinal effects from repeated AI exposure across childhood and adolescence.",
-  "Causal studies outside education, especially companionship, identity, sleep, and help-seeking.",
-  "Younger-child exposure to voice assistants, AI toys, and passive algorithmic environments.",
-  "Neurodivergent and vulnerable youth, including groups with different support needs and risk profiles.",
-  "Human-displacement measurement: what AI replaces, complements, or changes in caregiver, teacher, and peer interaction.",
-  "Product-level audits for child-facing AI systems, recommendation loops, personalization, and safety behavior.",
-  "Global and equity research on language, access, disability, culture, and uneven product governance."
+const bottlenecks = [
+  {
+    title: "Exposure measurement",
+    current: "AI use is not a single behavior: children may encounter tutoring, companionship, search, writing help, voice interfaces, classroom tools, recommendation systems, and AI-generated media.",
+    unlock: "A shared exposure vocabulary would let studies compare dose, modality, agency, duration, and adult involvement."
+  },
+  {
+    title: "Product opacity",
+    current: "Many child-facing AI systems change quickly, personalize responses, and expose little about prompts, guardrails, retrieval sources, or recommendation loops.",
+    unlock: "Audit protocols and product logs would make invisible system behavior legible enough for independent research."
+  },
+  {
+    title: "Longitudinal evidence",
+    current: "Most near-term evidence will be cross-sectional, short-run, or classroom-bound, while developmental effects may cascade over months or years.",
+    unlock: "Panel studies and cohort add-ons would connect repeated AI exposure to developmental trajectories rather than isolated outcomes."
+  },
+  {
+    title: "Causal designs outside education",
+    current: "AI tutoring and school tools are easier to test than companionship, identity formation, family routines, sleep, help-seeking, or peer interaction.",
+    unlock: "Ethical field experiments, natural experiments, and quasi-experimental designs would move the frontier beyond academic performance."
+  },
+  {
+    title: "Age-specific outcome measures",
+    current: "The same AI interaction may mean different things for toddlers, middle-school students, and adolescents, but measurement often flattens age and context.",
+    unlock: "Age-banded measure batteries would let studies ask developmentally precise questions."
+  },
+  {
+    title: "Governance and consent",
+    current: "Child data, platform access, parental permission, school procurement, and clinical risk make AI-child research hard to run and hard to replicate.",
+    unlock: "Shared governance templates would reduce friction while protecting children, families, teachers, and vulnerable groups."
+  }
+];
+
+const researchProgramSteps = [
+  {
+    title: "Start with the cell",
+    body: "Name the developmental period, domain, focal behavior, context, and baseline methods before adding an AI claim."
+  },
+  {
+    title: "Specify the exposure",
+    body: "Distinguish tutor, chatbot, companion, classroom AI, creative tool, AI toy, voice assistant, or invisible platform system."
+  },
+  {
+    title: "Declare the mechanism",
+    body: "State whether AI is expected to scaffold, displace, reinforce, model, offload, personalize, substitute socially, or shape identity."
+  },
+  {
+    title: "Choose outcomes and evidence",
+    body: "Tie the mechanism to validated outcomes, evidence tier, research design, measurement limits, and decision relevance."
+  },
+  {
+    title: "Name the next study",
+    body: "End each cell with a concrete next study: cohort add-on, audit, RCT, diary study, qualitative fieldwork, or policy evaluation."
+  }
+];
+
+const catalyticPrograms = [
+  {
+    name: "Child-AI Exposure Cohort",
+    horizon: "3-5 years",
+    unlock: "Connect repeated AI exposure to language, learning, social, emotional, sleep, and identity trajectories.",
+    build: ["Exposure diary plus passive logs", "Age-banded outcome batteries", "Family, school, and platform context measures"]
+  },
+  {
+    name: "AI Companion Safety Testbed",
+    horizon: "18-36 months",
+    unlock: "Evaluate teen companion systems for dependency risk, boundary confusion, help-seeking, crisis behavior, and social substitution.",
+    build: ["Red-team scripts", "Longitudinal teen panels", "Clinical escalation and consent protocols"]
+  },
+  {
+    name: "Classroom AI Causal Trial Network",
+    horizon: "2-4 years",
+    unlock: "Separate learning gains from answer generation, teacher displacement, motivation shifts, and equity effects.",
+    build: ["Multi-site classroom trials", "Teacher-in-the-loop conditions", "Common achievement and reasoning measures"]
+  },
+  {
+    name: "Child-Facing AI Audit Infrastructure",
+    horizon: "12-24 months",
+    unlock: "Make system behavior inspectable across prompts, ages, languages, safety cases, personalization, and recommendation loops.",
+    build: ["Age-role prompt suites", "Behavioral logging standards", "Public audit reports and benchmarks"]
+  },
+  {
+    name: "AI Literacy Assessment Battery",
+    horizon: "12-30 months",
+    unlock: "Track whether children can identify AI, calibrate trust, detect misinformation, understand authorship, and use AI responsibly by age.",
+    build: ["Developmentally staged tasks", "School-ready assessments", "Cross-cultural validation"]
+  }
+];
+
+const openQuestionGroups = [
+  {
+    title: "Near-term answerable questions",
+    questions: [
+      "Which AI tutoring configurations improve learning without replacing reasoning?",
+      "Can children identify AI-generated misinformation and synthetic authority cues by age?",
+      "How do caregivers, teachers, and peers mediate everyday child-AI use?"
+    ]
+  },
+  {
+    title: "Infrastructure-dependent questions",
+    questions: [
+      "What does repeated AI companionship do to help-seeking, social avoidance, identity, and emotional regulation?",
+      "How can researchers audit child-facing systems whose behavior changes through personalization and model updates?",
+      "What shared exposure metrics can support comparisons across home, school, clinical, and platform contexts?"
+    ]
+  },
+  {
+    title: "Long-horizon developmental questions",
+    questions: [
+      "Do AI interactions produce developmental cascades across childhood and adolescence?",
+      "How are neurodivergent, multilingual, low-resource, and otherwise vulnerable groups affected differently?",
+      "What human interactions are displaced, complemented, or transformed when AI becomes routine infrastructure?"
+    ]
+  }
 ];
 
 const formula = siteData.researchDensity.scoreFormula;
@@ -188,11 +291,11 @@ const description = siteData.subtitle;
             <div class="flex flex-wrap gap-2">
               {
                 [
+                  ["#roadmap-goal", "Roadmap Goal"],
+                  ["#bottlenecks", "Bottlenecks"],
                   ["#field-map", "Field Map"],
-                  ["#research-density", "Research Density"],
-                  ["#overlay-framework", "AI Impact Framework"],
-                  ["#landscape", "Research Landscape"],
-                  ["#open-questions", "Open Questions"]
+                  ["#priority-portfolio", "Priority Portfolio"],
+                  ["#catalytic-programs", "Catalytic Programs"]
                 ].map(([href, label]) => (
                   <a
                     href={href}
@@ -228,8 +331,62 @@ const description = siteData.subtitle;
           </div>
         </section>
 
+        <section id="roadmap-goal" class="section-panel">
+          <p class="section-kicker">03 / Roadmap Goal</p>
+          <h2 class="section-title mt-4">Make the roadmap target explicit before mapping the terrain.</h2>
+          <p class="section-lede mt-6">
+            Scientific roadmaps are most useful when they state a concrete stretch goal, then work backward to the capabilities, infrastructure, and coordination needed to reach it.
+          </p>
+
+          <div class="roadmap-goal mt-10">
+            <div class="roadmap-goal-main">
+              <p class="text-sm font-black uppercase tracking-[0.08em] text-ochre">Central roadmap question</p>
+              <p class="mt-4 text-2xl font-bold leading-tight text-navy lg:text-3xl">
+                What research infrastructure would let us rigorously evaluate AI's effects on child development over the next 3-5 years?
+              </p>
+              <p class="mt-5 text-sm leading-6 text-slate-600">
+                The field does not only need more studies. It needs shared measurement, inspectable systems, longitudinal designs, and a way to turn scattered evidence into coordinated research programs.
+              </p>
+            </div>
+            <div class="roadmap-goal-grid">
+              {
+                roadmapGoalPillars.map((pillar) => (
+                  <article class="content-card p-5">
+                    <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">{pillar.label}</p>
+                    <h3 class="mt-3 text-xl font-bold text-navy">{pillar.title}</h3>
+                    <p class="mt-3 text-sm leading-6 text-slate-600">{pillar.body}</p>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        </section>
+
+        <section id="bottlenecks" class="section-panel">
+          <p class="section-kicker">04 / Core Bottlenecks</p>
+          <h2 class="section-title mt-4">The roadmap is organized around what currently blocks good evidence.</h2>
+          <p class="section-lede mt-6">
+            The key question is not which topic is most interesting in isolation. It is which bottleneck, if solved, unlocks better research across many downstream child-AI questions.
+          </p>
+
+          <div class="bottleneck-grid mt-10">
+            {
+              bottlenecks.map((bottleneck, index) => (
+                <article class="bottleneck-card">
+                  <div class="bottleneck-index">{String(index + 1).padStart(2, "0")}</div>
+                  <div>
+                    <h3>{bottleneck.title}</h3>
+                    <p><strong>Current constraint:</strong> {bottleneck.current}</p>
+                    <p><strong>What it unlocks:</strong> {bottleneck.unlock}</p>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
         <section id="field-map" class="section-panel">
-          <p class="section-kicker">03 / Child Development Field Map</p>
+          <p class="section-kicker">05 / Child Development Field Map</p>
           <h2 class="section-title mt-4">Start with the field, not the product category.</h2>
           <p class="section-lede mt-6">
             Each research question sits at the intersection of five axes. The matrix below makes the core period by domain structure explicit for readers and search engines.
@@ -296,28 +453,8 @@ const description = siteData.subtitle;
           </div>
         </section>
 
-        <section id="layered-matrix" class="section-panel">
-          <p class="section-kicker">04 / Layered Matrix</p>
-          <h2 class="section-title mt-4">Turn each matrix cell into a research brief.</h2>
-          <p class="section-lede mt-6">
-            A useful cell is not just an age and outcome label. It should hold a short research memo: what is being studied, where it happens, how it is measured, why it may matter, and what outcome would count as evidence.
-          </p>
-
-          <div class="mt-10 grid gap-4 md:grid-cols-5">
-            {
-              layeredAnnotations.map((layer, index) => (
-                <article class="content-card p-5">
-                  <p class="text-sm font-black text-ochre">Layer {index + 1}</p>
-                  <h3 class="mt-3 text-xl font-bold text-navy">{layer.title}</h3>
-                  <p class="mt-3 text-sm leading-6 text-slate-600">{layer.body}</p>
-                </article>
-              ))
-            }
-          </div>
-        </section>
-
         <section id="research-density" class="section-panel">
-          <p class="section-kicker">05 / Research-Density Heat Map</p>
+          <p class="section-kicker">06 / Current Evidence Maturity</p>
           <h2 class="section-title mt-4">Use density as a directional prior, not a scoreboard.</h2>
           <p class="section-lede mt-6">
             The tiering below is illustrative. A rigorous version should be rebuilt with controlled vocabulary searches across databases such as PsycINFO, PubMed, ERIC, Scopus, Web of Science, or OpenAlex.
@@ -520,42 +657,79 @@ const description = siteData.subtitle;
           </div>
         </section>
 
-        <section id="overlay-framework" class="section-panel">
-          <p class="section-kicker">06 / AI Impact Overlay Framework</p>
-          <h2 class="section-title mt-4">Layer AI-specific mechanisms on top of developmental science.</h2>
+        <section id="program-template" class="section-panel">
+          <p class="section-kicker">07 / From Matrix Cell to Research Program</p>
+          <h2 class="section-title mt-4">Turn each cell into a bottleneck-aware research program.</h2>
           <p class="section-lede mt-6">
-            The overlay separates what children encounter from how that encounter might change learning, relationships, regulation, agency, identity, or institutional treatment.
+            A useful roadmap does not stop at a cell label. It converts the cell into a compact research brief: what is being studied, how AI might matter, what evidence exists, what blocks progress, and what next study would change decisions.
           </p>
 
-          <div class="mt-10 grid gap-4 lg:grid-cols-5">
+          <div class="mt-10 grid gap-4 md:grid-cols-5">
             {
-              siteData.aiOverlayLayers.map((layer) => (
+              researchProgramSteps.map((step, index) => (
                 <article class="content-card p-5">
-                  <div class="flex h-11 w-11 items-center justify-center bg-navy text-lg font-black text-white">
-                    {layer.id}
-                  </div>
-                  <h3 class="mt-4 text-xl font-bold text-navy">{layer.title}</h3>
-                  <ul class="mt-4 space-y-2 text-sm leading-5 text-slate-600">
-                    {layer.items.map((item) => <li>{item}</li>)}
-                  </ul>
+                  <p class="text-sm font-black text-ochre">Step {index + 1}</p>
+                  <h3 class="mt-3 text-xl font-bold text-navy">{step.title}</h3>
+                  <p class="mt-3 text-sm leading-6 text-slate-600">{step.body}</p>
                 </article>
               ))
             }
           </div>
+
+          <div class="program-template mt-10">
+            <div class="program-template-card">
+              <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">Example brief format</p>
+              <h3 class="mt-3 text-2xl font-bold text-navy">Cell x AI exposure x mechanism x evidence plan</h3>
+              <dl class="mt-5">
+                <div>
+                  <dt>Cell</dt>
+                  <dd>Early childhood x Language / Literacy</dd>
+                </div>
+                <div>
+                  <dt>AI exposure</dt>
+                  <dd>Conversational story assistant used with or without caregiver co-reading.</dd>
+                </div>
+                <div>
+                  <dt>Mechanism</dt>
+                  <dd>Scaffolding vocabulary and narrative practice, with possible displacement of caregiver talk.</dd>
+                </div>
+                <div>
+                  <dt>Next study</dt>
+                  <dd>Small multi-arm field trial measuring caregiver talk, vocabulary growth, story retell, and child understanding of AI agency.</dd>
+                </div>
+              </dl>
+            </div>
+            <div class="program-overlay-list">
+              <p class="text-sm font-black uppercase tracking-[0.08em] text-ochre">Overlay checklist</p>
+              <div class="mt-4 grid gap-3">
+                {
+                  siteData.aiOverlayLayers.map((layer) => (
+                    <article class="overlay-row">
+                      <div>{layer.id}</div>
+                      <div>
+                        <h4>{layer.title}</h4>
+                        <p>{layer.items.join(", ")}</p>
+                      </div>
+                    </article>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section id="where-first" class="section-panel">
-          <p class="section-kicker">07 / Where to Study First</p>
-          <h2 class="section-title mt-4">Start where the measurement base is strongest, then move into AI-native mechanisms.</h2>
+        <section id="priority-portfolio" class="section-panel">
+          <p class="section-kicker">08 / Priority Portfolio</p>
+          <h2 class="section-title mt-4">Balance rigorous anchor zones with AI-native frontier bets.</h2>
           <p class="section-lede mt-6">
-            The practical research sequence is anchor, frontier, watchlist. Mature domains create rigor; frontier domains capture what AI may make newly possible; watchlist zones track fast product change.
+            The practical research portfolio is anchor, frontier, watchlist. Mature domains create measurement rigor; frontier domains capture what AI may make newly possible; watchlist zones track fast product change.
           </p>
 
           <div class="mt-10 grid gap-5 lg:grid-cols-3">
             {
               siteData.priorityBuckets.map((bucket, index) => (
-                <article class="content-card p-6">
-                  <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">Bucket {index + 1}</p>
+                <article class="content-card p-5">
+                  <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">Portfolio {index + 1}</p>
                   <h3 class="mt-3 text-2xl font-bold text-navy">{bucket.name}</h3>
                   <p class="mt-3 text-sm leading-6 text-slate-600">{bucket.summary}</p>
                   <div class="mt-5">
@@ -578,11 +752,42 @@ const description = siteData.subtitle;
           </div>
         </section>
 
+        <section id="catalytic-programs" class="section-panel">
+          <p class="section-kicker">09 / Catalytic Research Programs</p>
+          <h2 class="section-title mt-4">Fund the shared capabilities that make many downstream studies possible.</h2>
+          <p class="section-lede mt-6">
+            These are not single-paper topics. They are coordinated research programs designed to knock down bottlenecks and produce reusable infrastructure for the whole child-AI evidence base.
+          </p>
+
+          <div class="program-grid mt-10">
+            {
+              catalyticPrograms.map((program, index) => (
+                <article class="catalytic-card">
+                  <div class="flex items-start justify-between gap-4">
+                    <div>
+                      <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">Program {index + 1}</p>
+                      <h3>{program.name}</h3>
+                    </div>
+                    <span>{program.horizon}</span>
+                  </div>
+                  <p class="mt-4 text-sm leading-6 text-slate-600">{program.unlock}</p>
+                  <div class="mt-5">
+                    <p class="text-sm font-bold uppercase tracking-[0.08em] text-slate-500">Build</p>
+                    <ul>
+                      {program.build.map((item) => <li>{item}</li>)}
+                    </ul>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
         <section id="landscape" class="section-panel">
-          <p class="section-kicker">08 / Early Research Landscape</p>
+          <p class="section-kicker">10 / Early Research Landscape</p>
           <h2 class="section-title mt-4">Seven streams define the early evidence map.</h2>
           <p class="section-lede mt-6">
-            The current landscape is strongest around learning, literacy, and schoolwork. The urgent gaps are companionship, early-childhood products, invisible AI, and long-term developmental effects.
+            The landscape section now serves as supporting context for the roadmap. It identifies where existing activity is concentrated and where catalytic programs would need to add capability.
           </p>
 
           <div class="mt-10 table-scroll">
@@ -620,14 +825,21 @@ const description = siteData.subtitle;
         </section>
 
         <section id="open-questions" class="section-panel">
-          <p class="section-kicker">09 / Open Questions</p>
-          <h2 class="section-title mt-4">The evidence frontier is longitudinal, causal, product-specific, and equity-sensitive.</h2>
-          <div class="mt-10 grid gap-4 md:grid-cols-2">
+          <p class="section-kicker">11 / Open Questions</p>
+          <h2 class="section-title mt-4">Separate what can be answered now from what requires new infrastructure.</h2>
+          <p class="section-lede mt-6">
+            The open questions are grouped by tractability. Some can be answered with near-term studies; others require cohorts, audits, shared measures, and governance systems first.
+          </p>
+
+          <div class="mt-10 grid gap-5 lg:grid-cols-3">
             {
-              openQuestions.map((question, index) => (
+              openQuestionGroups.map((group, index) => (
                 <article class="metric-card p-5">
-                  <p class="text-sm font-black text-ochre">Question {index + 1}</p>
-                  <p class="mt-3 text-lg font-semibold leading-7 text-navy">{question}</p>
+                  <p class="text-sm font-black text-ochre">Question set {index + 1}</p>
+                  <h3 class="mt-3 text-xl font-bold text-navy">{group.title}</h3>
+                  <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+                    {group.questions.map((question) => <li>{question}</li>)}
+                  </ul>
                 </article>
               ))
             }
@@ -635,10 +847,10 @@ const description = siteData.subtitle;
         </section>
 
         <section id="sources" class="section-panel">
-          <p class="section-kicker">10 / Sources and Further Reading</p>
+          <p class="section-kicker">12 / Sources and Further Reading</p>
           <h2 class="section-title mt-4">A starting shelf for research, design, and policy teams.</h2>
           <p class="section-lede mt-6">
-            Source cards are included as a practical reading path. Links were checked during implementation on April 28, 2026.
+            Source cards are included as a practical reading path. Links were checked during implementation on May 5, 2026.
           </p>
 
           <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">

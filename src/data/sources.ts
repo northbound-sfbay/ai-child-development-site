@@ -1,5 +1,16 @@
 export const sources = [
   {
+    title: "A Beginner's Guide to Scientific Roadmapping",
+    organization: "Essential Technology",
+    year: "2025",
+    category: "Roadmapping method",
+    evidenceRole: "Methodological frame for turning a landscape analysis into bottlenecks, unlocks, and catalytic research programs.",
+    tags: ["roadmapping", "bottlenecks", "research infrastructure"],
+    url: "https://www.essentialtechnology.blog/p/scientific-roadmapping",
+    whyItMatters:
+      "Frames roadmaps as forward-looking tools for identifying scientific bottlenecks, shared infrastructure needs, and catalytic projects."
+  },
+  {
     title: "Developmental Sciences (DS)",
     organization: "U.S. National Science Foundation",
     year: "2024",
