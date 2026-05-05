@@ -223,6 +223,232 @@ const formula = siteData.researchDensity.scoreFormula;
 const tierLabels = siteData.researchDensity.tierLabels;
 const densityMatrix = siteData.researchDensity.matrix;
 const fieldMap = siteData.fieldMap;
+const tierLabel = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].label;
+const tierMeaning = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].meaning;
+const densitySubscoreMatrix = [
+  [
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 2, evidenceMaturity: 2, recentMomentum: 2 },
+    { publicationVolume: 2, evidenceMaturity: 2, recentMomentum: 2 },
+    { publicationVolume: 3, evidenceMaturity: 3, recentMomentum: 2 },
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 3 },
+    { publicationVolume: 1, evidenceMaturity: 1, recentMomentum: 1 },
+    { publicationVolume: 3, evidenceMaturity: 3, recentMomentum: 2 }
+  ],
+  [
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 3 },
+    { publicationVolume: 2, evidenceMaturity: 2, recentMomentum: 2 },
+    { publicationVolume: 3, evidenceMaturity: 3, recentMomentum: 3 }
+  ],
+  [
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 3 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 }
+  ],
+  [
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 3 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 }
+  ],
+  [
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 4 },
+    { publicationVolume: 4, evidenceMaturity: 4, recentMomentum: 5 },
+    { publicationVolume: 3, evidenceMaturity: 3, recentMomentum: 4 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 },
+    { publicationVolume: 5, evidenceMaturity: 5, recentMomentum: 5 }
+  ]
+];
+const subscoreFields = [
+  {
+    key: "publicationVolume",
+    label: "Publication volume",
+    weight: formula.publicationVolume,
+    question: "How broad is the direct and adjacent literature base for this period-domain cell?"
+  },
+  {
+    key: "evidenceMaturity",
+    label: "Evidence maturity",
+    weight: formula.evidenceMaturity,
+    question: "Are there validated constructs, longitudinal or causal designs, reviews, measures, and convergent findings?"
+  },
+  {
+    key: "recentMomentum",
+    label: "Recent momentum",
+    weight: formula.recentMomentum,
+    question: "Is current work active in AI, digital media, HCI, policy, education, or youth-development venues?"
+  }
+];
+const sourceByTitle = new Map(sources.map((source) => [source.title, source]));
+const sourceRef = (title: string) => {
+  const source = sourceByTitle.get(title);
+
+  if (!source) {
+    return {
+      title,
+      organization: "Source pending",
+      year: "",
+      url: "#",
+      category: "Uncategorized",
+      evidenceRole: "Source record needs to be added."
+    };
+  }
+
+  return {
+    title: source.title,
+    organization: source.organization,
+    year: source.year,
+    url: source.url,
+    category: source.category,
+    evidenceRole: source.evidenceRole
+  };
+};
+const periodSourceTitles = [
+  ["Center on the Developing Child", "Child Development and Early Learning", "Developmental Sciences (DS)"],
+  ["Center on the Developing Child", "Child Development and Early Learning", "Society for Research in Child Development"],
+  ["Child Development and Early Learning", "Society for Research in Child Development", "Interaction Design and Children"],
+  ["Society for Research in Child Development", "Children and Screens", "National Literacy Trust"],
+  ["Health advisory on social media use in adolescence", "How Teens Use and View AI", "Common Sense Research"]
+];
+const domainSourceTitles = [
+  ["Developmental Sciences (DS)", "Center on the Developing Child", "Child Development and Early Learning"],
+  ["Developmental Sciences (DS)", "Child Development and Early Learning", "Society for Research in Child Development"],
+  ["Child Development and Early Learning", "National Literacy Trust", "Society for Research in Child Development"],
+  ["Society for Research in Child Development", "Children and Screens", "Common Sense Research"],
+  ["Health advisory on social media use in adolescence", "Center on the Developing Child", "Children and Screens"],
+  ["Society for Research in Child Development", "AI for Children", "Health advisory on social media use in adolescence"],
+  ["International AIED Society Conferences", "National Literacy Trust", "Child Development and Early Learning"]
+];
+const momentumSourceTitles = [
+  ["Developmental Sciences (DS)", "Center on the Developing Child"],
+  ["Interaction Design and Children", "Children and Screens"],
+  ["Interaction Design and Children", "National Literacy Trust", "Common Sense Research"],
+  ["Children and Screens", "Common Sense Research", "International AIED Society Conferences"],
+  ["How Teens Use and View AI", "Common Sense Research", "AI for Children", "Health advisory on social media use in adolescence"]
+];
+const unique = <T,>(items: T[]) => Array.from(new Set(items));
+const roundedComposite = (subscores: Record<string, number>) =>
+  Number(
+    (
+      subscores.publicationVolume * formula.publicationVolume +
+      subscores.evidenceMaturity * formula.evidenceMaturity +
+      subscores.recentMomentum * formula.recentMomentum
+    ).toFixed(1)
+  );
+const bandLabel = (score: number) => {
+  if (score >= 5) return "very strong";
+  if (score >= 4) return "strong";
+  if (score >= 3) return "moderate";
+  if (score >= 2) return "limited";
+  return "sparse";
+};
+const cellSourceTitles = (periodIndex: number, domainIndex: number) =>
+  unique([
+    ...periodSourceTitles[periodIndex],
+    ...domainSourceTitles[domainIndex],
+    ...momentumSourceTitles[periodIndex],
+    ...(domainIndex === 6 ? ["International AIED Society Conferences", "National Literacy Trust"] : []),
+    ...(domainIndex === 2 ? ["National Literacy Trust"] : []),
+    ...(domainIndex >= 3 && periodIndex >= 3 ? ["Common Sense Research", "How Teens Use and View AI"] : []),
+    ...(domainIndex === 5 ? ["AI for Children"] : [])
+  ]).slice(0, 6);
+const subscoreSourceTitles = (periodIndex: number, domainIndex: number, key: string) => {
+  if (key === "publicationVolume") {
+    return unique([...periodSourceTitles[periodIndex], ...domainSourceTitles[domainIndex]]).slice(0, 3);
+  }
+
+  if (key === "evidenceMaturity") {
+    return unique([
+      ...domainSourceTitles[domainIndex],
+      "Developmental Sciences (DS)",
+      "Society for Research in Child Development"
+    ]).slice(0, 3);
+  }
+
+  return unique([
+    ...momentumSourceTitles[periodIndex],
+    ...(domainIndex === 6 ? ["International AIED Society Conferences", "National Literacy Trust"] : []),
+    ...(domainIndex === 2 ? ["National Literacy Trust"] : []),
+    ...(domainIndex >= 3 ? ["Common Sense Research"] : [])
+  ]).slice(0, 3);
+};
+const evidenceCaveat = (tier: number, periodIndex: number, domainIndex: number) => {
+  if (tier >= 5) {
+    return "High baseline maturity does not mean child-AI effects are already settled; it means this cell has strong constructs and methods to support AI-specific studies.";
+  }
+
+  if (tier <= 2) {
+    return "This cell needs direct database review before being used as a firm claim; current scoring is a directional prior based on adjacent developmental and technology literature.";
+  }
+
+  if (periodIndex === 4 || domainIndex >= 3) {
+    return "Momentum is high because AI and digital-media questions are active, but causal and longitudinal child-AI evidence is still uneven.";
+  }
+
+  return "This score should be treated as a curated starting point until a formal bibliometric search is run.";
+};
+const auditQuery = (period: string, domain: string) =>
+  `"${period}" "${domain}" child development (AI OR "artificial intelligence" OR "digital media" OR technology) (longitudinal OR review OR randomized OR cohort OR assessment)`;
+const densityEvidenceCells = densityMatrix.flatMap((row, rowIndex) =>
+  row.map((tier, colIndex) => {
+    const period = siteData.periods[rowIndex];
+    const domain = siteData.domains[colIndex];
+    const subscores = densitySubscoreMatrix[rowIndex][colIndex];
+    const composite = roundedComposite(subscores);
+
+    return {
+      id: `${rowIndex}-${colIndex}`,
+      period,
+      domain,
+      tier,
+      tierLabel: tierLabel(tier),
+      tierMeaning: tierMeaning(tier),
+      composite,
+      confidence: tier >= 4 ? "Higher baseline confidence" : tier >= 3 ? "Moderate confidence" : "Low direct-evidence confidence",
+      caveat: evidenceCaveat(tier, rowIndex, colIndex),
+      auditQuery: auditQuery(period, domain),
+      summary: `${period} x ${domain} is scored as tier ${tier} (${tierLabel(tier)}) from a weighted blend of curated publication-volume, evidence-maturity, and recent-momentum signals.`,
+      subscores: subscoreFields.map((field) => {
+        const score = subscores[field.key as keyof typeof subscores];
+
+        return {
+          key: field.key,
+          label: field.label,
+          weight: field.weight,
+          score,
+          weighted: Number((score * field.weight).toFixed(1)),
+          question: field.question,
+          rationale:
+            field.key === "publicationVolume"
+              ? `${score}/5 indicates ${bandLabel(score)} breadth of baseline and adjacent literature for this age-domain pairing. This is currently curated from source coverage, not a live database count.`
+              : field.key === "evidenceMaturity"
+                ? `${score}/5 indicates ${bandLabel(score)} maturity of constructs, measures, review traditions, and study designs available for this cell.`
+                : `${score}/5 indicates ${bandLabel(score)} current activity in AI, digital-media, HCI, policy, education, or youth-development sources relevant to this cell.`,
+          sources: subscoreSourceTitles(rowIndex, colIndex, field.key).map(sourceRef)
+        };
+      }),
+      sources: cellSourceTitles(rowIndex, colIndex).map(sourceRef),
+      validationNeeds: [
+        "Run database searches with controlled vocabulary in PsycINFO, PubMed, ERIC, Scopus/Web of Science, and OpenAlex.",
+        "Separate baseline developmental evidence from AI-specific evidence before upgrading the tier.",
+        "Document inclusion criteria, study quality, sample age range, design type, and recency for each cited source."
+      ]
+    };
+  })
+);
 const sourceCategories = ["All", ...Array.from(new Set(sources.map((source) => source.category)))];
 const sourceSearchText = (source: (typeof sources)[number]) =>
   [
@@ -236,8 +462,6 @@ const sourceSearchText = (source: (typeof sources)[number]) =>
   ]
     .join(" ")
     .toLowerCase();
-const tierLabel = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].label;
-const tierMeaning = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].meaning;
 const title = `${siteData.title} | Research Landscape`;
 const description = siteData.subtitle;
 ---
@@ -459,6 +683,11 @@ const description = siteData.subtitle;
           <p class="section-lede mt-6">
             The tiering below is illustrative. A rigorous version should be rebuilt with controlled vocabulary searches across databases such as PsycINFO, PubMed, ERIC, Scopus, Web of Science, or OpenAlex.
           </p>
+          <div class="evidence-note mt-6">
+            <p>
+              Each heatmap cell is now inspectable. Select a cell to see the weighted subscore calculation, source links, quality caveats, and the audit query needed to validate or challenge the score.
+            </p>
+          </div>
 
           <div class="density-tabs mt-10" data-density-tabs>
             <div class="density-tablist" role="tablist" aria-label="Research density views">
@@ -528,12 +757,13 @@ const description = siteData.subtitle;
                           {
                             row.map((tier, colIndex) => (
                               <td class="heatmap-td" data-tier={tier}>
-                                <div
-                                  tabindex="0"
-                                  role="img"
-                                  class="heatmap-cell"
+                                <button
+                                  type="button"
+                                  class={`heatmap-cell${rowIndex === 0 && colIndex === 0 ? " is-selected" : ""}`}
+                                  data-evidence-cell={`${rowIndex}-${colIndex}`}
                                   title={`${siteData.periods[rowIndex]} x ${siteData.domains[colIndex]}: tier ${tier}, ${tierLabel(tier)} - ${tierMeaning(tier)}.`}
-                                  aria-label={`${siteData.periods[rowIndex]} by ${siteData.domains[colIndex]} has research-density tier ${tier}: ${tierLabel(tier)}, ${tierMeaning(tier)}.`}
+                                  aria-label={`Inspect ${siteData.periods[rowIndex]} by ${siteData.domains[colIndex]} research-density evidence. Current tier ${tier}: ${tierLabel(tier)}, ${tierMeaning(tier)}.`}
+                                  aria-pressed={rowIndex === 0 && colIndex === 0 ? "true" : "false"}
                                 >
                                   <span>
                                     <span class="heatmap-score">{tier}</span>
@@ -547,7 +777,7 @@ const description = siteData.subtitle;
                                       Tier {tier}: {tierLabel(tier)} - {tierMeaning(tier)}.
                                     </span>
                                   </span>
-                                </div>
+                                </button>
                               </td>
                             ))
                           }
@@ -568,6 +798,53 @@ const description = siteData.subtitle;
                     </div>
                   ))
                 }
+              </div>
+
+              <div class="evidence-inspector mt-8" data-evidence-inspector hidden aria-live="polite">
+                <div class="evidence-inspector-header">
+                  <div>
+                    <p class="text-sm font-black uppercase tracking-[0.08em] text-teal">Selected cell evidence</p>
+                    <h3 data-evidence-title>Loading evidence detail</h3>
+                    <p data-evidence-summary></p>
+                  </div>
+                  <div class="evidence-header-actions">
+                    <div class="evidence-scorebox">
+                      <span data-evidence-tier>Tier -</span>
+                      <span data-evidence-composite>Composite -</span>
+                      <span data-evidence-confidence>Confidence pending</span>
+                    </div>
+                    <button type="button" class="evidence-collapse-button" data-evidence-collapse aria-expanded="true">
+                      Fold evidence
+                    </button>
+                  </div>
+                </div>
+
+                <div data-evidence-body>
+                  <div class="formula-strip" aria-label="Weighted scoring formula">
+                    <span>Composite tier =</span>
+                    <span>50% publication volume</span>
+                    <span>30% evidence maturity</span>
+                    <span>20% recent momentum</span>
+                  </div>
+
+                  <div class="subscore-grid" data-evidence-subscores></div>
+
+                  <div class="evidence-detail-grid">
+                    <div>
+                      <h4>Cell-level source trail</h4>
+                      <div class="evidence-source-list" data-evidence-sources></div>
+                    </div>
+                    <div>
+                      <h4>Limits and validation path</h4>
+                      <p class="evidence-caveat" data-evidence-caveat></p>
+                      <ul class="validation-list" data-evidence-validation></ul>
+                      <div class="audit-query">
+                        <p>Suggested audit query</p>
+                        <code data-evidence-query></code>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -655,6 +932,8 @@ const description = siteData.subtitle;
               <p class="citation-empty mt-6" data-library-empty hidden>No citations match this filter.</p>
             </div>
           </div>
+
+          <script id="density-evidence-data" type="application/json" set:html={JSON.stringify(densityEvidenceCells)}></script>
         </section>
 
         <section id="program-template" class="section-panel">
@@ -887,6 +1166,150 @@ const description = siteData.subtitle;
   </div>
 
   <script>
+    const densityEvidenceData = document.querySelector<HTMLScriptElement>("#density-evidence-data");
+    const densityEvidence = densityEvidenceData?.textContent ? JSON.parse(densityEvidenceData.textContent) : [];
+    const evidenceById = new Map(densityEvidence.map((cell: any) => [cell.id, cell]));
+    const evidenceButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-evidence-cell]"));
+    const evidenceInspector = document.querySelector<HTMLElement>("[data-evidence-inspector]");
+    const evidenceCollapseButton = document.querySelector<HTMLButtonElement>("[data-evidence-collapse]");
+    const evidenceBody = document.querySelector<HTMLElement>("[data-evidence-body]");
+    let selectedEvidenceCellId: string | null = null;
+    let hasOpenedEvidenceInspector = false;
+
+    const clearElement = (element: Element | null) => {
+      if (!element) return;
+      element.replaceChildren();
+    };
+
+    const appendText = (parent: Element, tag: string, text: string, className?: string) => {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      element.textContent = text;
+      parent.appendChild(element);
+      return element;
+    };
+
+    const renderEvidenceSources = (container: Element | null, sources: any[]) => {
+      clearElement(container);
+      if (!container) return;
+
+      sources.forEach((source) => {
+        const link = document.createElement("a");
+        link.href = source.url;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.className = "evidence-source-card";
+
+        appendText(link, "span", `${source.organization}${source.year ? ` · ${source.year}` : ""}`, "evidence-source-meta");
+        appendText(link, "strong", source.title);
+        appendText(link, "span", source.evidenceRole, "evidence-source-role");
+        container.appendChild(link);
+      });
+    };
+
+    const renderEvidenceCell = (cellId: string | null) => {
+      if (!cellId || !evidenceInspector) return;
+
+      const cell = evidenceById.get(cellId);
+      if (!cell) return;
+
+      selectedEvidenceCellId = cellId;
+      hasOpenedEvidenceInspector = true;
+      evidenceInspector.hidden = false;
+      evidenceInspector.classList.remove("is-folded");
+      if (evidenceBody) evidenceBody.hidden = false;
+      if (evidenceCollapseButton) {
+        evidenceCollapseButton.textContent = "Fold evidence";
+        evidenceCollapseButton.setAttribute("aria-expanded", "true");
+      }
+
+      evidenceButtons.forEach((button) => {
+        const isSelected = button.getAttribute("data-evidence-cell") === cellId;
+        button.classList.toggle("is-selected", isSelected);
+        button.setAttribute("aria-pressed", String(isSelected));
+      });
+
+      const title = evidenceInspector.querySelector<HTMLElement>("[data-evidence-title]");
+      const summary = evidenceInspector.querySelector<HTMLElement>("[data-evidence-summary]");
+      const tier = evidenceInspector.querySelector<HTMLElement>("[data-evidence-tier]");
+      const composite = evidenceInspector.querySelector<HTMLElement>("[data-evidence-composite]");
+      const confidence = evidenceInspector.querySelector<HTMLElement>("[data-evidence-confidence]");
+      const subscores = evidenceInspector.querySelector<HTMLElement>("[data-evidence-subscores]");
+      const sources = evidenceInspector.querySelector<HTMLElement>("[data-evidence-sources]");
+      const caveat = evidenceInspector.querySelector<HTMLElement>("[data-evidence-caveat]");
+      const validation = evidenceInspector.querySelector<HTMLElement>("[data-evidence-validation]");
+      const query = evidenceInspector.querySelector<HTMLElement>("[data-evidence-query]");
+
+      if (title) title.textContent = `${cell.period} x ${cell.domain}`;
+      if (summary) summary.textContent = cell.summary;
+      if (tier) tier.textContent = `Tier ${cell.tier}: ${cell.tierLabel}`;
+      if (composite) composite.textContent = `Composite ${cell.composite}/5`;
+      if (confidence) confidence.textContent = cell.confidence;
+      if (caveat) caveat.textContent = cell.caveat;
+      if (query) query.textContent = cell.auditQuery;
+
+      clearElement(subscores);
+      cell.subscores.forEach((subscore: any) => {
+        if (!subscores) return;
+
+        const card = document.createElement("article");
+        card.className = "subscore-card";
+
+        const header = document.createElement("div");
+        header.className = "subscore-card-header";
+        appendText(header, "h4", subscore.label);
+        appendText(header, "span", `${subscore.score}/5`);
+        card.appendChild(header);
+
+        appendText(card, "p", `${Math.round(subscore.weight * 100)}% weight · weighted contribution ${subscore.weighted}`, "subscore-weight");
+        appendText(card, "p", subscore.question, "subscore-question");
+        appendText(card, "p", subscore.rationale, "subscore-rationale");
+
+        const sourceWrap = document.createElement("div");
+        sourceWrap.className = "subscore-sources";
+        subscore.sources.forEach((source: any) => {
+          const link = document.createElement("a");
+          link.href = source.url;
+          link.target = "_blank";
+          link.rel = "noreferrer";
+          link.textContent = source.title;
+          sourceWrap.appendChild(link);
+        });
+        card.appendChild(sourceWrap);
+        subscores.appendChild(card);
+      });
+
+      renderEvidenceSources(sources, cell.sources);
+
+      clearElement(validation);
+      cell.validationNeeds.forEach((need: string) => {
+        if (!validation) return;
+        appendText(validation, "li", need);
+      });
+    };
+
+    if (evidenceButtons.length > 0) {
+      evidenceButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          renderEvidenceCell(button.getAttribute("data-evidence-cell"));
+        });
+      });
+
+      evidenceCollapseButton?.addEventListener("click", () => {
+        if (!evidenceInspector || !evidenceBody) return;
+
+        const willFold = !evidenceInspector.classList.contains("is-folded");
+        evidenceInspector.classList.toggle("is-folded", willFold);
+        evidenceBody.hidden = willFold;
+        evidenceCollapseButton.textContent = willFold ? "Open evidence" : "Fold evidence";
+        evidenceCollapseButton.setAttribute("aria-expanded", String(!willFold));
+
+        if (!hasOpenedEvidenceInspector && !willFold) {
+          renderEvidenceCell(selectedEvidenceCellId || evidenceButtons[0].getAttribute("data-evidence-cell"));
+        }
+      });
+    }
+
     const densityTabsRoot = document.querySelector<HTMLElement>("[data-density-tabs]");
 
     if (densityTabsRoot) {
