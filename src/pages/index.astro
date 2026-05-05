@@ -292,6 +292,91 @@ const subscoreFields = [
     question: "Is current work active in AI, digital media, HCI, policy, education, or youth-development venues?"
   }
 ];
+const scoreQuantification = {
+  publicationVolume: {
+    measurement:
+      "Deduplicated publication records matching the period-domain query across PsycINFO, PubMed, ERIC, Scopus/Web of Science, and OpenAlex, with core child-development venue hits counted separately.",
+    auditWindow: "Baseline count: all years. Recent subset: 2022-2026.",
+    auditStatus: "Threshold defined; observed counts still need a formal bibliometric audit.",
+    thresholds: {
+      5: "5/5 requires >=200 deduplicated relevant records or >=40 records in named core child-development / adjacent venues, plus >=3 review or meta-analysis anchors.",
+      4: "4/5 requires 75-199 deduplicated records or 15-39 core venue records, plus at least one review anchor.",
+      3: "3/5 requires 25-74 deduplicated records or 5-14 core venue records, with a mix of direct and adjacent work.",
+      2: "2/5 requires 6-24 deduplicated records or 1-4 core venue records; the literature is mostly adjacent or exploratory.",
+      1: "1/5 means 0-5 deduplicated direct records and no sustained core venue stream."
+    },
+    countFields: [
+      { label: "Total deduplicated records", required: { 5: ">=200", 4: "75-199", 3: "25-74", 2: "6-24", 1: "0-5" } },
+      { label: "Core venue records", required: { 5: ">=40", 4: "15-39", 3: "5-14", 2: "1-4", 1: "0" } },
+      { label: "Review / meta-analysis anchors", required: { 5: ">=3", 4: ">=1", 3: "0-1", 2: "0", 1: "0" } },
+      { label: "Direct child-AI records", required: { 5: "Tracked separately", 4: "Tracked separately", 3: "Tracked separately", 2: "Tracked separately", 1: "Tracked separately" } }
+    ]
+  },
+  evidenceMaturity: {
+    measurement:
+      "Count the strongest study-design and measurement anchors: reviews, meta-analyses, longitudinal or cohort studies, RCTs or quasi-experiments, validated measures, and convergent findings.",
+    auditWindow: "All years, with design type and measure validity coded for each included source.",
+    auditStatus: "Threshold defined; design-quality counts still need source-by-source coding.",
+    thresholds: {
+      5: "5/5 requires >=2 systematic reviews or meta-analyses, >=3 longitudinal/cohort studies, >=2 causal/RCT/quasi-experimental studies, validated age-appropriate measures, and convergent findings across settings.",
+      4: "4/5 requires at least one review anchor, multiple longitudinal or causal studies, validated measures, and generally convergent findings.",
+      3: "3/5 requires some longitudinal, causal, or validated-measure evidence, but coverage is uneven or concentrated in adjacent literatures.",
+      2: "2/5 means mostly cross-sectional, small-sample, exploratory, or measure-development work with limited convergence.",
+      1: "1/5 means little direct design-quality evidence and no clear validated measure or review base for this cell."
+    },
+    countFields: [
+      { label: "Systematic reviews / meta-analyses", required: { 5: ">=2", 4: ">=1", 3: "0-1", 2: "0", 1: "0" } },
+      { label: "Longitudinal / cohort studies", required: { 5: ">=3", 4: ">=2", 3: ">=1", 2: "0-1", 1: "0" } },
+      { label: "RCT / quasi-experimental studies", required: { 5: ">=2", 4: ">=1", 3: "0-1", 2: "0", 1: "0" } },
+      { label: "Validated age-appropriate measures", required: { 5: "Multiple", 4: "At least one mature family", 3: "Some", 2: "Limited", 1: "Absent / unclear" } }
+    ]
+  },
+  recentMomentum: {
+    measurement:
+      "Count records, conference signals, special issues, policy reports, and research-translation outputs from 2022-2026 that mention the period-domain cell or its AI / digital-media analogs.",
+    auditWindow: "Recent window: 2022-2026.",
+    auditStatus: "Threshold defined; recent-record and venue-signal counts still need an audit pass.",
+    thresholds: {
+      5: "5/5 requires >=50 records since 2022 or >=30% of total records published in 2022-2026, plus >=3 current conference, special-issue, policy, or translation signals.",
+      4: "4/5 requires 20-49 records since 2022 and at least two current venue/report signals.",
+      3: "3/5 requires 8-19 records since 2022 or one active conference/report stream.",
+      2: "2/5 requires 2-7 recent records and only occasional venue/report signals.",
+      1: "1/5 means 0-1 recent records and no sustained recent venue signal."
+    },
+    countFields: [
+      { label: "Recent records since 2022", required: { 5: ">=50", 4: "20-49", 3: "8-19", 2: "2-7", 1: "0-1" } },
+      { label: "Recent share of total records", required: { 5: ">=30%", 4: "15-29%", 3: "5-14%", 2: "<5%", 1: "None / negligible" } },
+      { label: "Conference / special-issue signals", required: { 5: ">=3", 4: ">=2", 3: ">=1", 2: "Occasional", 1: "0" } },
+      { label: "Policy / translation reports", required: { 5: ">=3", 4: ">=2", 3: ">=1", 2: "Occasional", 1: "0" } }
+    ]
+  }
+};
+const coreChildDevelopmentVenues = [
+  "Child Development",
+  "Developmental Psychology",
+  "Developmental Science",
+  "Journal of Experimental Child Psychology",
+  "Infancy",
+  "Early Childhood Research Quarterly",
+  "SRCD Biennial Meeting"
+];
+const domainAuditVenues = [
+  ["Developmental Cognitive Neuroscience", "Developmental Psychobiology", "Pediatric Research"],
+  ["Child Development", "Developmental Psychology", "Developmental Science"],
+  ["Journal of Child Language", "Reading Research Quarterly", "Scientific Studies of Reading"],
+  ["Social Development", "Developmental Psychology", "Child Development"],
+  ["Development and Psychopathology", "Journal of Child Psychology and Psychiatry", "Emotion"],
+  ["Journal of Research on Adolescence", "Developmental Psychology", "Child Development"],
+  ["Journal of Educational Psychology", "Computers & Education", "AIED", "Learning Analytics and Knowledge"]
+];
+const aiMomentumVenues = [
+  "Interaction Design and Children",
+  "CHI",
+  "AIED",
+  "Learning Analytics and Knowledge",
+  "Common Sense Research",
+  "Children and Screens"
+];
 const sourceByTitle = new Map(sources.map((source) => [source.title, source]));
 const sourceRef = (title: string) => {
   const source = sourceByTitle.get(title);
@@ -385,6 +470,31 @@ const subscoreSourceTitles = (periodIndex: number, domainIndex: number, key: str
     ...(domainIndex >= 3 ? ["Common Sense Research"] : [])
   ]).slice(0, 3);
 };
+const quantificationFor = (key: keyof typeof scoreQuantification, score: number, period: string, domain: string, domainIndex: number) => {
+  const quant = scoreQuantification[key];
+  const venues =
+    key === "recentMomentum"
+      ? unique([...aiMomentumVenues, ...domainAuditVenues[domainIndex]])
+      : unique([...coreChildDevelopmentVenues, ...domainAuditVenues[domainIndex]]);
+
+  return {
+    measurement: quant.measurement,
+    auditWindow: quant.auditWindow,
+    auditStatus: quant.auditStatus,
+    threshold: quant.thresholds[score as keyof typeof quant.thresholds],
+    observedStatus: "Not yet counted in this static site.",
+    venueFrame: venues.slice(0, 8),
+    countFields: quant.countFields.map((field) => ({
+      label: field.label,
+      required: field.required[score as keyof typeof field.required],
+      observed: "Pending audit"
+    })),
+    query:
+      key === "recentMomentum"
+        ? `"${period}" "${domain}" (AI OR "artificial intelligence" OR "digital media" OR technology) 2022..2026`
+        : `"${period}" "${domain}" child development (review OR meta-analysis OR longitudinal OR randomized OR cohort OR assessment OR measure)`
+  };
+};
 const evidenceCaveat = (tier: number, periodIndex: number, domainIndex: number) => {
   if (tier >= 5) {
     return "High baseline maturity does not mean child-AI effects are already settled; it means this cell has strong constructs and methods to support AI-specific studies.";
@@ -420,7 +530,7 @@ const densityEvidenceCells = densityMatrix.flatMap((row, rowIndex) =>
       confidence: tier >= 4 ? "Higher baseline confidence" : tier >= 3 ? "Moderate confidence" : "Low direct-evidence confidence",
       caveat: evidenceCaveat(tier, rowIndex, colIndex),
       auditQuery: auditQuery(period, domain),
-      summary: `${period} x ${domain} is scored as tier ${tier} (${tierLabel(tier)}) from a weighted blend of curated publication-volume, evidence-maturity, and recent-momentum signals.`,
+      summary: `${period} x ${domain} is scored as tier ${tier} (${tierLabel(tier)}) from a weighted blend of publication-volume, evidence-maturity, and recent-momentum signals. Each subscore below now shows the quantitative threshold that would justify that score and the counts still needed to verify it.`,
       subscores: subscoreFields.map((field) => {
         const score = subscores[field.key as keyof typeof subscores];
 
@@ -433,18 +543,21 @@ const densityEvidenceCells = densityMatrix.flatMap((row, rowIndex) =>
           question: field.question,
           rationale:
             field.key === "publicationVolume"
-              ? `${score}/5 indicates ${bandLabel(score)} breadth of baseline and adjacent literature for this age-domain pairing. This is currently curated from source coverage, not a live database count.`
+              ? `${score}/5 is a count-based claim about the breadth of direct and adjacent literature for this age-domain pairing. It should be retained only if the audit ledger meets the threshold below.`
               : field.key === "evidenceMaturity"
-                ? `${score}/5 indicates ${bandLabel(score)} maturity of constructs, measures, review traditions, and study designs available for this cell.`
-                : `${score}/5 indicates ${bandLabel(score)} current activity in AI, digital-media, HCI, policy, education, or youth-development sources relevant to this cell.`,
+                ? `${score}/5 is a count-based claim about study quality, design depth, validated measures, and convergence. It should be backed by coded source counts, not an impression of maturity.`
+                : `${score}/5 is a count-based claim about recent activity in AI, digital-media, HCI, policy, education, or youth-development venues relevant to this cell.`,
+          quantification: quantificationFor(field.key as keyof typeof scoreQuantification, score, period, domain, colIndex),
           sources: subscoreSourceTitles(rowIndex, colIndex, field.key).map(sourceRef)
         };
       }),
       sources: cellSourceTitles(rowIndex, colIndex).map(sourceRef),
       validationNeeds: [
         "Run database searches with controlled vocabulary in PsycINFO, PubMed, ERIC, Scopus/Web of Science, and OpenAlex.",
+        "Record query date, database, raw record count, deduplicated count, inclusion/exclusion rules, age range, domain tags, and direct-versus-adjacent status.",
         "Separate baseline developmental evidence from AI-specific evidence before upgrading the tier.",
-        "Document inclusion criteria, study quality, sample age range, design type, and recency for each cited source."
+        "Code study quality fields: review/meta-analysis, longitudinal/cohort, causal/RCT/quasi-experimental, validated measure, sample size, setting, and recency.",
+        "Downgrade any subscore whose observed counts do not meet the stated threshold."
       ]
     };
   })
@@ -727,17 +840,17 @@ const description = siteData.subtitle;
                 <div class="metric-card p-6">
                   <p class="text-4xl font-black text-navy">{Math.round(formula.publicationVolume * 100)}%</p>
                   <h3 class="mt-2 text-lg font-bold text-navy">Publication volume</h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">How much direct and adjacent literature exists.</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Deduplicated records, core child-development venue hits, and review anchors.</p>
                 </div>
                 <div class="metric-card p-6">
                   <p class="text-4xl font-black text-navy">{Math.round(formula.evidenceMaturity * 100)}%</p>
                   <h3 class="mt-2 text-lg font-bold text-navy">Evidence maturity</h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">Reviews, RCTs, longitudinal evidence, validated measures, and convergent findings.</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Counted reviews, longitudinal studies, causal designs, validated measures, and convergence.</p>
                 </div>
                 <div class="metric-card p-6">
                   <p class="text-4xl font-black text-navy">{Math.round(formula.recentMomentum * 100)}%</p>
                   <h3 class="mt-2 text-lg font-bold text-navy">Recent momentum</h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">How quickly the area is growing in recent work and public attention.</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Records, conference signals, special issues, and policy / translation outputs since 2022.</p>
                 </div>
               </div>
 
@@ -1207,6 +1320,67 @@ const description = siteData.subtitle;
       });
     };
 
+    const renderQuantificationLedger = (parent: Element, quantification: any) => {
+      if (!quantification) return;
+
+      const ledger = document.createElement("div");
+      ledger.className = "quant-ledger";
+
+      appendText(ledger, "p", "Quantitative score definition", "quant-label");
+      appendText(ledger, "p", quantification.threshold, "quant-threshold");
+
+      const meta = document.createElement("dl");
+      meta.className = "quant-meta";
+
+      [
+        ["Measurement", quantification.measurement],
+        ["Audit window", quantification.auditWindow],
+        ["Observed count status", quantification.observedStatus],
+        ["Audit status", quantification.auditStatus]
+      ].forEach(([label, value]) => {
+        const item = document.createElement("div");
+        appendText(item, "dt", label);
+        appendText(item, "dd", value);
+        meta.appendChild(item);
+      });
+
+      ledger.appendChild(meta);
+
+      const fields = document.createElement("div");
+      fields.className = "quant-field-grid";
+
+      quantification.countFields.forEach((field: any) => {
+        const fieldCard = document.createElement("div");
+        fieldCard.className = "quant-field";
+        appendText(fieldCard, "span", field.label, "quant-field-label");
+        appendText(fieldCard, "strong", field.required);
+        appendText(fieldCard, "span", `Observed: ${field.observed}`, "quant-field-observed");
+        fields.appendChild(fieldCard);
+      });
+
+      ledger.appendChild(fields);
+
+      const venues = document.createElement("div");
+      venues.className = "quant-venues";
+      appendText(venues, "p", "Venues to count");
+
+      const venueList = document.createElement("ul");
+      quantification.venueFrame.forEach((venue: string) => {
+        appendText(venueList, "li", venue);
+      });
+
+      venues.appendChild(venueList);
+      ledger.appendChild(venues);
+
+      const query = document.createElement("div");
+      query.className = "quant-query";
+      appendText(query, "p", "Subscore audit query");
+      appendText(query, "code", quantification.query);
+      ledger.appendChild(query);
+
+      parent.appendChild(ledger);
+    };
+
     const renderEvidenceCell = (cellId: string | null) => {
       if (!cellId || !evidenceInspector) return;
 
@@ -1264,6 +1438,7 @@ const description = siteData.subtitle;
         appendText(card, "p", `${Math.round(subscore.weight * 100)}% weight · weighted contribution ${subscore.weighted}`, "subscore-weight");
         appendText(card, "p", subscore.question, "subscore-question");
         appendText(card, "p", subscore.rationale, "subscore-rationale");
+        renderQuantificationLedger(card, subscore.quantification);
 
         const sourceWrap = document.createElement("div");
         sourceWrap.className = "subscore-sources";
