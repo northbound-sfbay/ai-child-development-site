@@ -120,6 +120,19 @@ const formula = siteData.researchDensity.scoreFormula;
 const tierLabels = siteData.researchDensity.tierLabels;
 const densityMatrix = siteData.researchDensity.matrix;
 const fieldMap = siteData.fieldMap;
+const sourceCategories = ["All", ...Array.from(new Set(sources.map((source) => source.category)))];
+const sourceSearchText = (source: (typeof sources)[number]) =>
+  [
+    source.title,
+    source.organization,
+    source.year,
+    source.category,
+    source.evidenceRole,
+    source.whyItMatters,
+    ...source.tags
+  ]
+    .join(" ")
+    .toLowerCase();
 const tierLabel = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].label;
 const tierMeaning = (tier: number) => tierLabels[String(tier) as keyof typeof tierLabels].meaning;
 const title = `${siteData.title} | Research Landscape`;
@@ -310,80 +323,200 @@ const description = siteData.subtitle;
             The tiering below is illustrative. A rigorous version should be rebuilt with controlled vocabulary searches across databases such as PsycINFO, PubMed, ERIC, Scopus, Web of Science, or OpenAlex.
           </p>
 
-          <div class="mt-10 grid gap-4 md:grid-cols-3">
-            <div class="metric-card p-6">
-              <p class="text-4xl font-black text-navy">{Math.round(formula.publicationVolume * 100)}%</p>
-              <h3 class="mt-2 text-lg font-bold text-navy">Publication volume</h3>
-              <p class="mt-2 text-sm leading-6 text-slate-600">How much direct and adjacent literature exists.</p>
+          <div class="density-tabs mt-10" data-density-tabs>
+            <div class="density-tablist" role="tablist" aria-label="Research density views">
+              <button
+                type="button"
+                class="density-tab is-active"
+                id="density-tab-heatmap"
+                role="tab"
+                aria-selected="true"
+                aria-controls="density-panel-heatmap"
+                data-density-tab="heatmap"
+              >
+                Heatmap
+              </button>
+              <button
+                type="button"
+                class="density-tab"
+                id="density-tab-library"
+                role="tab"
+                aria-selected="false"
+                aria-controls="density-panel-library"
+                data-density-tab="library"
+              >
+                Appendix Library
+                <span class="tab-count">{sources.length}</span>
+              </button>
             </div>
-            <div class="metric-card p-6">
-              <p class="text-4xl font-black text-navy">{Math.round(formula.evidenceMaturity * 100)}%</p>
-              <h3 class="mt-2 text-lg font-bold text-navy">Evidence maturity</h3>
-              <p class="mt-2 text-sm leading-6 text-slate-600">Reviews, RCTs, longitudinal evidence, validated measures, and convergent findings.</p>
-            </div>
-            <div class="metric-card p-6">
-              <p class="text-4xl font-black text-navy">{Math.round(formula.recentMomentum * 100)}%</p>
-              <h3 class="mt-2 text-lg font-bold text-navy">Recent momentum</h3>
-              <p class="mt-2 text-sm leading-6 text-slate-600">How quickly the area is growing in recent work and public attention.</p>
-            </div>
-          </div>
 
-          <div class="mt-10 table-scroll">
-            <table class="matrix-table heatmap-table" aria-label="Research density heat map by developmental period and domain">
-              <thead>
-                <tr>
-                  <th scope="col">Developmental period</th>
-                  {siteData.domains.map((domain) => <th scope="col">{domain}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  densityMatrix.map((row, rowIndex) => (
+            <div
+              class="density-tab-panel"
+              id="density-panel-heatmap"
+              role="tabpanel"
+              aria-labelledby="density-tab-heatmap"
+              data-density-panel="heatmap"
+            >
+              <div class="grid gap-4 md:grid-cols-3">
+                <div class="metric-card p-6">
+                  <p class="text-4xl font-black text-navy">{Math.round(formula.publicationVolume * 100)}%</p>
+                  <h3 class="mt-2 text-lg font-bold text-navy">Publication volume</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">How much direct and adjacent literature exists.</p>
+                </div>
+                <div class="metric-card p-6">
+                  <p class="text-4xl font-black text-navy">{Math.round(formula.evidenceMaturity * 100)}%</p>
+                  <h3 class="mt-2 text-lg font-bold text-navy">Evidence maturity</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Reviews, RCTs, longitudinal evidence, validated measures, and convergent findings.</p>
+                </div>
+                <div class="metric-card p-6">
+                  <p class="text-4xl font-black text-navy">{Math.round(formula.recentMomentum * 100)}%</p>
+                  <h3 class="mt-2 text-lg font-bold text-navy">Recent momentum</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">How quickly the area is growing in recent work and public attention.</p>
+                </div>
+              </div>
+
+              <div class="mt-10 table-scroll">
+                <table class="matrix-table heatmap-table" aria-label="Research density heat map by developmental period and domain">
+                  <thead>
                     <tr>
-                      <th scope="row">{siteData.periods[rowIndex]}</th>
-                      {
-                        row.map((tier, colIndex) => (
-                          <td class="heatmap-td" data-tier={tier}>
-                            <div
-                              tabindex="0"
-                              role="img"
-                              class="heatmap-cell"
-                              title={`${siteData.periods[rowIndex]} x ${siteData.domains[colIndex]}: tier ${tier}, ${tierLabel(tier)} - ${tierMeaning(tier)}.`}
-                              aria-label={`${siteData.periods[rowIndex]} by ${siteData.domains[colIndex]} has research-density tier ${tier}: ${tierLabel(tier)}, ${tierMeaning(tier)}.`}
-                            >
-                              <span>
-                                <span class="heatmap-score">{tier}</span>
-                                <span class="heatmap-label">{tierLabel(tier)}</span>
-                              </span>
-                              <span class="heatmap-tooltip" aria-hidden="true">
-                                <strong class="block text-sm text-navy">
-                                  {siteData.periods[rowIndex]} x {siteData.domains[colIndex]}
-                                </strong>
-                                <span class="mt-1 block text-sm leading-5">
-                                  Tier {tier}: {tierLabel(tier)} - {tierMeaning(tier)}.
-                                </span>
-                              </span>
-                            </div>
-                          </td>
-                        ))
-                      }
+                      <th scope="col">Developmental period</th>
+                      {siteData.domains.map((domain) => <th scope="col">{domain}</th>)}
                     </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      densityMatrix.map((row, rowIndex) => (
+                        <tr>
+                          <th scope="row">{siteData.periods[rowIndex]}</th>
+                          {
+                            row.map((tier, colIndex) => (
+                              <td class="heatmap-td" data-tier={tier}>
+                                <div
+                                  tabindex="0"
+                                  role="img"
+                                  class="heatmap-cell"
+                                  title={`${siteData.periods[rowIndex]} x ${siteData.domains[colIndex]}: tier ${tier}, ${tierLabel(tier)} - ${tierMeaning(tier)}.`}
+                                  aria-label={`${siteData.periods[rowIndex]} by ${siteData.domains[colIndex]} has research-density tier ${tier}: ${tierLabel(tier)}, ${tierMeaning(tier)}.`}
+                                >
+                                  <span>
+                                    <span class="heatmap-score">{tier}</span>
+                                    <span class="heatmap-label">{tierLabel(tier)}</span>
+                                  </span>
+                                  <span class="heatmap-tooltip" aria-hidden="true">
+                                    <strong class="block text-sm text-navy">
+                                      {siteData.periods[rowIndex]} x {siteData.domains[colIndex]}
+                                    </strong>
+                                    <span class="mt-1 block text-sm leading-5">
+                                      Tier {tier}: {tierLabel(tier)} - {tierMeaning(tier)}.
+                                    </span>
+                                  </span>
+                                </div>
+                              </td>
+                            ))
+                          }
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mt-6 grid gap-3 md:grid-cols-5" aria-label="Research density tier legend">
+                {
+                  Object.entries(tierLabels).map(([tier, info]) => (
+                    <div class="tier-key p-4" data-tier={tier}>
+                      <p class="text-lg font-black">Tier {tier}</p>
+                      <p class="text-sm font-bold">{info.label}</p>
+                      <p class="mt-1 text-xs leading-5">{info.meaning}</p>
+                    </div>
                   ))
                 }
-              </tbody>
-            </table>
-          </div>
+              </div>
+            </div>
 
-          <div class="mt-6 grid gap-3 md:grid-cols-5" aria-label="Research density tier legend">
-            {
-              Object.entries(tierLabels).map(([tier, info]) => (
-                <div class="tier-key p-4" data-tier={tier}>
-                  <p class="text-lg font-black">Tier {tier}</p>
-                  <p class="text-sm font-bold">{info.label}</p>
-                  <p class="mt-1 text-xs leading-5">{info.meaning}</p>
+            <div
+              class="density-tab-panel"
+              id="density-panel-library"
+              role="tabpanel"
+              aria-labelledby="density-tab-library"
+              data-density-panel="library"
+              hidden
+            >
+              <div class="library-header">
+                <div>
+                  <p class="text-sm font-black uppercase tracking-[0.08em] text-ochre">Appendix corpus</p>
+                  <h3 class="mt-2 text-2xl font-bold text-navy">Citation library behind the density scan.</h3>
+                  <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
+                    These records are the visible evidence shelf for the heatmap: baseline developmental science, child technology venues, youth AI use, literacy, media, and policy sources.
+                  </p>
                 </div>
-              ))
-            }
+                <div class="library-count" aria-label={`${sources.length} indexed sources`}>
+                  <span>{sources.length}</span>
+                  <span>Indexed sources</span>
+                </div>
+              </div>
+
+              <div class="library-toolbar" data-citation-library>
+                <label class="sr-only" for="citation-library-search">Search citation library</label>
+                <input
+                  id="citation-library-search"
+                  class="library-search"
+                  type="search"
+                  placeholder="Search title, organization, tag, or role"
+                  data-library-search
+                />
+                <div class="category-filter" role="group" aria-label="Citation category filter">
+                  {
+                    sourceCategories.map((category, index) => (
+                      <button
+                        type="button"
+                        class={`category-filter-button${index === 0 ? " is-active" : ""}`}
+                        aria-pressed={index === 0 ? "true" : "false"}
+                        data-library-filter={category}
+                      >
+                        {category}
+                      </button>
+                    ))
+                  }
+                </div>
+              </div>
+
+              <div class="citation-library-grid mt-6" data-library-results>
+                {
+                  sources.map((source) => (
+                    <article
+                      class="citation-card content-card p-5"
+                      data-citation-card
+                      data-category={source.category}
+                      data-search-text={sourceSearchText(source)}
+                    >
+                      <div class="flex items-start justify-between gap-4">
+                        <div>
+                          <p class="text-sm font-bold uppercase tracking-[0.08em] text-teal">{source.organization}</p>
+                          <h4 class="mt-2 text-xl font-bold leading-tight text-navy">{source.title}</h4>
+                        </div>
+                        <span class="shrink-0 border border-line px-2.5 py-1 text-xs font-bold text-slate-600">{source.year}</span>
+                      </div>
+                      <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="citation-category">{source.category}</span>
+                        {source.tags.map((tag) => <span class="citation-tag">{tag}</span>)}
+                      </div>
+                      <p class="mt-4 text-sm font-semibold leading-6 text-navy">{source.evidenceRole}</p>
+                      <p class="mt-3 text-sm leading-6 text-slate-600">{source.whyItMatters}</p>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        class="mt-5 inline-flex text-sm font-bold text-navy underline decoration-teal decoration-2 underline-offset-4"
+                      >
+                        Open source
+                      </a>
+                    </article>
+                  ))
+                }
+              </div>
+              <p class="citation-empty mt-6" data-library-empty hidden>No citations match this filter.</p>
+            </div>
           </div>
         </section>
 
@@ -540,4 +673,101 @@ const description = siteData.subtitle;
       </main>
     </div>
   </div>
+
+  <script>
+    const densityTabsRoot = document.querySelector<HTMLElement>("[data-density-tabs]");
+
+    if (densityTabsRoot) {
+      const tabs = Array.from(densityTabsRoot.querySelectorAll<HTMLButtonElement>("[data-density-tab]"));
+      const panels = Array.from(densityTabsRoot.querySelectorAll<HTMLElement>("[data-density-panel]"));
+
+      const activateTab = (key: string | null) => {
+        if (!key) return;
+
+        tabs.forEach((tab) => {
+          const isActive = tab.getAttribute("data-density-tab") === key;
+          tab.classList.toggle("is-active", isActive);
+          tab.setAttribute("aria-selected", String(isActive));
+          tab.setAttribute("tabindex", isActive ? "0" : "-1");
+        });
+
+        panels.forEach((panel) => {
+          panel.hidden = panel.getAttribute("data-density-panel") !== key;
+        });
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => {
+          activateTab(tab.getAttribute("data-density-tab"));
+        });
+
+        tab.addEventListener("keydown", (event) => {
+          if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) {
+            return;
+          }
+
+          event.preventDefault();
+          const lastIndex = tabs.length - 1;
+          let nextIndex = index;
+
+          if (event.key === "ArrowRight") nextIndex = index === lastIndex ? 0 : index + 1;
+          if (event.key === "ArrowLeft") nextIndex = index === 0 ? lastIndex : index - 1;
+          if (event.key === "Home") nextIndex = 0;
+          if (event.key === "End") nextIndex = lastIndex;
+
+          const nextTab = tabs[nextIndex];
+          activateTab(nextTab.getAttribute("data-density-tab"));
+          nextTab.focus();
+        });
+      });
+    }
+
+    const citationLibrary = document.querySelector<HTMLElement>("[data-citation-library]");
+
+    if (citationLibrary) {
+      const searchInput = citationLibrary.querySelector<HTMLInputElement>("[data-library-search]");
+      const filterButtons = Array.from(citationLibrary.querySelectorAll<HTMLButtonElement>("[data-library-filter]"));
+      const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-citation-card]"));
+      const emptyState = document.querySelector<HTMLElement>("[data-library-empty]");
+      let activeCategory = "All";
+
+      const applyLibraryFilters = () => {
+        if (!searchInput) return;
+
+        const query = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const category = card.getAttribute("data-category");
+          const searchText = card.getAttribute("data-search-text") || "";
+          const matchesCategory = activeCategory === "All" || category === activeCategory;
+          const matchesSearch = query === "" || searchText.includes(query);
+          const isVisible = matchesCategory && matchesSearch;
+
+          card.hidden = !isVisible;
+          if (isVisible) visibleCount += 1;
+        });
+
+        if (emptyState) {
+          emptyState.hidden = visibleCount > 0;
+        }
+      };
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          activeCategory = button.getAttribute("data-library-filter") || "All";
+
+          filterButtons.forEach((filterButton) => {
+            const isActive = filterButton === button;
+            filterButton.classList.toggle("is-active", isActive);
+            filterButton.setAttribute("aria-pressed", String(isActive));
+          });
+
+          applyLibraryFilters();
+        });
+      });
+
+      searchInput?.addEventListener("input", applyLibraryFilters);
+    }
+  </script>
 </BaseLayout>
