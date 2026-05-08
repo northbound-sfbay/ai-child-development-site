@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteTabs from "../components/SiteTabs.astro";
 import FramingNote from "../content/framing.mdx";
 import { sources } from "../data/sources";
 import siteData from "../../ai_child_development_site_data.json";
@@ -581,6 +582,8 @@ const description = siteData.subtitle;
 
 <BaseLayout title={title} description={description}>
   <div class="site-shell">
+    <SiteTabs active="roadmap" />
+
     <div class="page-grid">
       <aside class="toc" aria-label="Section navigation">
         <nav class="flex gap-2 p-3 text-sm lg:block lg:space-y-1 lg:p-4">

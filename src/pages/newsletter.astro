@@ -1,0 +1,243 @@
+---
+import SiteTabs from "../components/SiteTabs.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { newsletterIssues } from "../data/newsletter";
+
+const issue = newsletterIssues[0];
+const title = `${issue.title} | ${issue.published}`;
+const description = issue.dek;
+const sectionNav = [
+  ["lead", "Lead Story"],
+  ["us-policy", "U.S. Policy"],
+  ["schools-health", "Schools + Health"],
+  ["events", "Events"],
+  ["international", "International"],
+  ["watch", "Next Watch"]
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="site-shell newsletter-shell">
+    <SiteTabs active="newsletter" />
+
+    <div class="page-grid">
+      <aside class="toc" aria-label="Newsletter section navigation">
+        <nav class="flex gap-2 p-3 text-sm lg:block lg:space-y-1 lg:p-4">
+          {
+            sectionNav.map(([href, label]) => (
+              <a
+                href={`#${href}`}
+                class="inline-flex rounded-sm px-3 py-2 font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal lg:flex"
+              >
+                {label}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <main>
+        <section class="newsletter-hero" aria-labelledby="newsletter-title">
+          <div class="newsletter-hero-copy">
+            <p class="section-kicker">Issue {issue.issueNumber} / {issue.cadence}</p>
+            <h1 id="newsletter-title">{issue.title}</h1>
+            <p>{issue.dek}</p>
+          </div>
+          <dl class="newsletter-meta">
+            <div>
+              <dt>Published</dt>
+              <dd>{issue.published}</dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd>{issue.coverageWindow}</dd>
+            </div>
+            <div>
+              <dt>Frame</dt>
+              <dd>U.S.-first, with a separate international watch.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="newsletter-editor-note" aria-label="Editor's note">
+          <p>{issue.editorNote}</p>
+        </section>
+
+        <section id="lead" class="section-panel">
+          <p class="section-kicker">{issue.lead.eyebrow}</p>
+          <div class="newsletter-lead mt-5">
+            <div>
+              <h2 class="section-title">{issue.lead.title}</h2>
+              <p class="section-lede mt-6">{issue.lead.body}</p>
+              <div class="source-row mt-6" aria-label="Lead story sources">
+                {
+                  issue.lead.sources.map((source) => (
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      {source.label}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="newsletter-aside">
+              <h3>Why it matters</h3>
+              <ul>
+                {issue.lead.whyItMatters.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="us-policy" class="section-panel">
+          <p class="section-kicker">U.S. Policy Tracker</p>
+          <h2 class="section-title mt-4">The U.S. debate is narrowing around youth AI companions, parental controls, and school AI.</h2>
+          <p class="section-lede mt-6">
+            Items below are either inside the look-back window or currently active policy signals that shape the next three months.
+          </p>
+
+          <div class="newsletter-timeline mt-10">
+            {
+              issue.usPolicy.map((item) => (
+                <article class="timeline-item">
+                  <div class="timeline-date">{item.date}</div>
+                  <div class="timeline-body">
+                    <p class="item-tag">{item.tag}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                    <div class="source-row">
+                      {
+                        item.sources.map((source) => (
+                          <a href={source.url} target="_blank" rel="noreferrer">
+                            {source.label}
+                          </a>
+                        ))
+                      }
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="schools-health" class="section-panel">
+          <p class="section-kicker">Schools, Health + Youth Wellbeing</p>
+          <h2 class="section-title mt-4">The constructive-use side of the field is moving through convenings and pilots.</h2>
+          <p class="section-lede mt-6">
+            These are the signals to watch if the question is not only what to restrict, but what child-beneficial AI should look like.
+          </p>
+
+          <div class="newsletter-card-grid mt-10">
+            {
+              issue.schoolsHealth.map((item) => (
+                <article class="newsletter-card">
+                  <div class="card-topline">
+                    <span>{item.date}</span>
+                    <span>{item.tag}</span>
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                  <div class="source-row">
+                    {
+                      item.sources.map((source) => (
+                        <a href={source.url} target="_blank" rel="noreferrer">
+                          {source.label}
+                        </a>
+                      ))
+                    }
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="events" class="section-panel">
+          <p class="section-kicker">Events + Deadlines</p>
+          <h2 class="section-title mt-4">The next three months are policy-heavy, with a few child-specific convenings worth tracking.</h2>
+
+          <div class="event-list mt-10">
+            {
+              issue.events.map((event) => (
+                <article class="event-row">
+                  <div>
+                    <span>{event.date}</span>
+                    <span>{event.location}</span>
+                  </div>
+                  <div>
+                    <h3>{event.title}</h3>
+                    <p>{event.why}</p>
+                    <div class="source-row">
+                      {
+                        event.sources.map((source) => (
+                          <a href={source.url} target="_blank" rel="noreferrer">
+                            {source.label}
+                          </a>
+                        ))
+                      }
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="international" class="section-panel">
+          <p class="section-kicker">International Watch</p>
+          <h2 class="section-title mt-4">International signals are useful because they preview design obligations U.S. platforms may face globally.</h2>
+
+          <div class="international-grid mt-10">
+            {
+              issue.international.map((item) => (
+                <article class="international-item">
+                  <div class="card-topline">
+                    <span>{item.date}</span>
+                    <span>{item.region}</span>
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                  <div class="source-row">
+                    {
+                      item.sources.map((source) => (
+                        <a href={source.url} target="_blank" rel="noreferrer">
+                          {source.label}
+                        </a>
+                      ))
+                    }
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+
+        <section id="watch" class="section-panel">
+          <p class="section-kicker">Next Issue Watchlist</p>
+          <h2 class="section-title mt-4">Questions to track before the next biweekly issue.</h2>
+
+          <div class="watch-grid mt-10">
+            <ul class="watch-list">
+              {issue.nextWatch.map((item) => <li>{item}</li>)}
+            </ul>
+            <div class="context-sources">
+              <h3>Standing context</h3>
+              <p>
+                These are outside the primary look-back window, but they explain why the current cycle is moving quickly.
+              </p>
+              <div class="source-row">
+                {
+                  issue.contextSources.map((source) => (
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      {source.label}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</BaseLayout>
